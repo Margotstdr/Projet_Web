@@ -10,9 +10,10 @@
 <body>
     
     <?php include 'header.php'; ?>
-    <?php include 'apropos.php'; ?>
-    <?php include 'cours.php'; ?>
-    <?php include 'enseignants.php'; ?>
+    
+    <section class = "description">
+        
+
 
     
     

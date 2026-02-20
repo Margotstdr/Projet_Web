@@ -13,5 +13,5 @@
                 <a href="plan.php">Plan interactif</a>
             </nav>
         </header>
-    ;
+    ';
 ?>

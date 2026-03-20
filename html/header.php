@@ -1,8 +1,9 @@
 <?php
     echo '
+        <link rel="stylesheet" href="../css/header.css">
+
         <header class="header">
             <div class="logo">
-                <h1>EFREI</h1>
                 <img src="../data/logo.svg" alt="Logo de l\'EFREI" class="logo-image">
             </div>
 

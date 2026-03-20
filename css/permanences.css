@@ -1,0 +1,373 @@
+/* ============================================================
+   css/permanences.css — LIQUID GLASS Frutiger Aero
+   ============================================================ */
+
+* { box-sizing: border-box; }
+
+body {
+    margin      : 0;
+    font-family : -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    color       : #082030;
+    min-height  : 100vh;
+    overflow-x  : hidden;
+
+    background:
+        radial-gradient(ellipse 400px 140px at 12% 10%, rgba(255,255,255,0.95), transparent 65%),
+        radial-gradient(ellipse 280px 100px at 54%  7%, rgba(255,255,255,0.90), transparent 62%),
+        radial-gradient(ellipse 360px 120px at 82% 16%, rgba(255,255,255,0.82), transparent 65%),
+        linear-gradient(180deg,
+            #a8e4fc  0%, #3fc8f8 14%, #0db5e8 28%,
+            #0197c8 42%, #0180b8 54%, #01a0c0 66%,
+            #009eb0 78%, #007890 100%);
+    background-attachment: fixed;
+}
+
+/* Bulle flottante */
+body::before {
+    content: ''; position: fixed;
+    top: 8%; right: 3%;
+    width: 150px; height: 150px;
+    border-radius: 50%;
+    pointer-events: none; z-index: 0;
+    animation: floatBig 10s ease-in-out infinite;
+    background:
+        radial-gradient(circle at 30% 25%, rgba(255,255,255,0.94) 0%, rgba(255,255,255,0.46) 15%, transparent 65%),
+        radial-gradient(circle at 68% 72%, rgba(160,230,255,0.28) 0%, transparent 42%);
+    border: 1.5px solid rgba(255,255,255,0.62);
+    box-shadow: inset -5px -5px 18px rgba(70,190,230,0.26), inset 4px 4px 13px rgba(255,255,255,0.62), 0 10px 34px rgba(0,140,200,0.16);
+}
+
+@keyframes floatBig {
+    0%,100% { transform: translateY(0) scale(1);    opacity:.82; }
+    33%     { transform: translateY(-20px) scale(1.02); opacity:.94; }
+    66%     { transform: translateY(-9px)  scale(0.98); opacity:.86; }
+}
+@keyframes floatMed {
+    0%,100% { transform: translateY(0) scale(1);    opacity:.74; }
+    40%     { transform: translateY(-15px) scale(1.03); opacity:.90; }
+    70%     { transform: translateY(-7px)  scale(0.97); opacity:.80; }
+}
+
+/* ── Layout ── */
+.agenda {
+    max-width: 1200px;
+    margin   : 2rem auto 3rem;
+    padding  : 0 1.6rem;
+    position : relative;
+    z-index  : 1;
+}
+
+.agenda h1 {
+    margin-bottom: 1.4rem;
+    font-size    : clamp(1.6rem, 4vw, 2.4rem);
+    font-weight  : 900;
+    text-align   : center;
+
+    background: linear-gradient(155deg, #e0f6ff 0%, #7dd8f8 25%, #1ab4f0 50%, #0d7fc4 75%, #d0f0ff 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 3px 10px rgba(0,100,200,0.55)) drop-shadow(0 1px 2px rgba(255,255,255,0.60));
+}
+
+/* Navigation semaine — liquid glass pill */
+.navigation-semaine {
+    display        : flex;
+    align-items    : center;
+    justify-content: space-between;
+    gap            : 1rem;
+    margin-bottom  : 1.4rem;
+    padding        : 0.7rem 1.2rem;
+    border-radius  : 999px;
+    position       : relative;
+    overflow       : hidden;
+
+    background: rgba(255,255,255,0.07);
+    backdrop-filter: blur(20px) saturate(200%) brightness(1.12);
+    -webkit-backdrop-filter: blur(20px) saturate(200%) brightness(1.12);
+    border: 1px solid rgba(255,255,255,0.46);
+    box-shadow:
+        0 8px 28px rgba(0,100,160,0.16),
+        0 0 0 1px rgba(120,220,255,0.12),
+        0 1px 0 rgba(255,255,255,0.90) inset,
+        0 -1px 0 rgba(100,220,255,0.20) inset;
+}
+
+.navigation-semaine::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 55% 0;
+    border-radius: 999px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0) 100%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.navigation-semaine a {
+    position     : relative;
+    z-index      : 1;
+    padding      : 0.3rem 0.9rem;
+    border-radius: 999px;
+    font-size    : 0.85rem;
+    font-weight  : 700;
+    text-decoration: none;
+    color        : rgba(255,255,255,0.92);
+    white-space  : nowrap;
+
+    background: rgba(255,255,255,0.14);
+    border: 1px solid rgba(255,255,255,0.42);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.70) inset;
+    transition: background .15s ease, transform .15s ease;
+}
+
+.navigation-semaine a:hover {
+    background: rgba(255,255,255,0.24);
+    transform : translateY(-1px);
+}
+
+.titre-semaine {
+    margin  : 0;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color   : #ffffff;
+    text-shadow: 0 1px 6px rgba(0,60,110,0.45);
+    position: relative;
+    z-index : 1;
+    text-align: center;
+}
+
+/* ── Grille semaine ── */
+.grille-semaine {
+    display              : grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap                  : 0.9rem;
+    margin-bottom        : 2rem;
+}
+
+/* Colonne jour — liquid glass */
+.jour {
+    border-radius: 22px;
+    padding      : 1.1rem 1rem;
+    position     : relative;
+    overflow     : hidden;
+
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(20px) saturate(200%) brightness(1.12);
+    -webkit-backdrop-filter: blur(20px) saturate(200%) brightness(1.12);
+    border: 1px solid rgba(255,255,255,0.44);
+    box-shadow:
+        0 10px 32px rgba(0,100,160,0.16),
+        0 0 0 1px rgba(120,220,255,0.10),
+        0 1px 0 rgba(255,255,255,0.88) inset,
+        0 -1px 0 rgba(100,220,255,0.18) inset;
+}
+
+.jour::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 65% 0;
+    border-radius: 22px 22px 0 0;
+    background: linear-gradient(180deg, rgba(255,255,255,0.58) 0%, rgba(255,255,255,0) 100%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.jour::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 22px;
+    background:
+        radial-gradient(ellipse 55% 60% at 10% 55%, rgba(120,210,255,0.09) 0%, transparent 62%),
+        radial-gradient(ellipse 35% 65% at 90% 38%, rgba(190,100,255,0.06) 0%, transparent 58%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.jour h3 {
+    margin    : 0 0 0.8rem;
+    font-size : 0.88rem;
+    font-weight: 800;
+    color     : #ffffff;
+    text-shadow: 0 1px 6px rgba(0,60,110,0.50);
+    position  : relative;
+    z-index   : 1;
+    text-align: center;
+}
+
+/* ── Permanence card ── */
+.permanence {
+    margin-bottom: 0.7rem;
+    padding      : 0.8rem 0.9rem;
+    border-radius: 16px;
+    position     : relative;
+    z-index      : 1;
+    overflow     : hidden;
+
+    background: rgba(255,255,255,0.09);
+    border: 1px solid rgba(255,255,255,0.38);
+    box-shadow:
+        0 4px 14px rgba(0,100,160,0.12),
+        0 1px 0 rgba(255,255,255,0.75) inset;
+    transition: transform .16s ease, box-shadow .16s ease;
+}
+
+.permanence:last-child { margin-bottom: 0; }
+
+.permanence:hover {
+    transform: translateY(-2px);
+    background: rgba(255,255,255,0.14);
+    box-shadow:
+        0 8px 24px rgba(0,100,160,0.20),
+        0 1px 0 rgba(255,255,255,0.88) inset;
+}
+
+.permanence p {
+    margin    : 0.12rem 0;
+    font-size : 0.76rem;
+    line-height: 1.4;
+    color     : rgba(255,255,255,0.90);
+    text-shadow: 0 1px 3px rgba(0,40,80,0.28);
+}
+
+.permanence .heure {
+    font-weight: 700;
+    color      : #ffffff;
+    font-size  : 0.80rem;
+}
+
+.permanence .prof   { color: rgba(200,240,255,0.92); }
+.permanence .matiere { font-weight: 600; color: rgba(255,255,255,0.95); }
+.permanence .salle  { color: rgba(180,230,255,0.85); font-size: 0.72rem; }
+
+/* Bouton s'inscrire — pilule liquid glass */
+.btn-inscrire {
+    display      : inline-block;
+    margin-top   : 0.5rem;
+    padding      : 0.28rem 0.75rem;
+    border-radius: 999px;
+    font-size    : 0.72rem;
+    font-weight  : 700;
+    text-decoration: none;
+    color        : rgba(255,255,255,0.95);
+
+    background: rgba(255,255,255,0.16);
+    border: 1px solid rgba(255,255,255,0.45);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.70) inset, 0 3px 10px rgba(0,100,160,0.18);
+    transition: background .15s ease, transform .15s ease;
+}
+
+.btn-inscrire:hover {
+    background: rgba(255,255,255,0.26);
+    transform : translateY(-1px);
+}
+
+/* ── Formulaires inscription ── */
+.inscriptions { margin-top: 1rem; }
+
+.formulaire-inscription {
+    margin-bottom: 1.2rem;
+    padding      : 1.6rem 1.8rem;
+    border-radius: 24px;
+    position     : relative;
+    overflow     : hidden;
+
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(20px) saturate(200%) brightness(1.12);
+    -webkit-backdrop-filter: blur(20px) saturate(200%) brightness(1.12);
+    border: 1px solid rgba(255,255,255,0.42);
+    box-shadow:
+        0 12px 36px rgba(0,100,160,0.16),
+        0 0 0 1px rgba(120,220,255,0.10),
+        0 1px 0 rgba(255,255,255,0.88) inset,
+        0 -1px 0 rgba(100,220,255,0.16) inset;
+}
+
+.formulaire-inscription::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 62% 0;
+    border-radius: 24px 24px 0 0;
+    background: linear-gradient(180deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0) 100%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.formulaire-inscription h3 {
+    margin    : 0 0 1rem;
+    font-size : 1rem;
+    font-weight: 800;
+    color     : #ffffff;
+    text-shadow: 0 1px 7px rgba(0,60,110,0.50);
+    position  : relative;
+    z-index   : 1;
+}
+
+.formulaire-inscription label {
+    display    : flex;
+    flex-direction: column;
+    gap        : 0.3rem;
+    margin-bottom: 0.8rem;
+    font-size  : 0.85rem;
+    font-weight: 600;
+    color      : rgba(255,255,255,0.90);
+    position   : relative;
+    z-index    : 1;
+}
+
+.formulaire-inscription input[type="text"],
+.formulaire-inscription input[type="email"] {
+    padding      : 0.55rem 0.9rem;
+    border-radius: 12px;
+    font-size    : 0.85rem;
+    font-family  : inherit;
+    color        : #082030;
+    outline      : none;
+
+    background: rgba(255,255,255,0.70);
+    border    : 1px solid rgba(255,255,255,0.60);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.80) inset, 0 2px 8px rgba(0,80,130,0.12);
+    transition: background .15s ease, border-color .15s ease;
+}
+
+.formulaire-inscription input:focus {
+    background : rgba(255,255,255,0.85);
+    border-color: rgba(0,160,220,0.50);
+}
+
+.formulaire-inscription button[type="submit"] {
+    padding      : 0.55rem 1.4rem;
+    border-radius: 999px;
+    font-size    : 0.88rem;
+    font-weight  : 700;
+    font-family  : inherit;
+    cursor       : pointer;
+    border       : 1px solid rgba(255,255,255,0.50);
+    color        : rgba(255,255,255,0.96);
+    position     : relative;
+    z-index      : 1;
+
+    background: rgba(255,255,255,0.18);
+    backdrop-filter: blur(14px);
+    box-shadow:
+        0 1px 0 rgba(255,255,255,0.75) inset,
+        0 5px 16px rgba(0,100,160,0.22);
+    transition: background .15s ease, transform .15s ease;
+}
+
+.formulaire-inscription button[type="submit"]:hover {
+    background: rgba(255,255,255,0.28);
+    transform : translateY(-1px);
+}
+
+/* ── Responsive ── */
+@media (max-width: 1000px) {
+    .grille-semaine { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 640px) {
+    .grille-semaine { grid-template-columns: 1fr 1fr; }
+    .navigation-semaine { flex-direction: column; border-radius: 20px; }
+}
+@media (max-width: 400px) {
+    .grille-semaine { grid-template-columns: 1fr; }
+}

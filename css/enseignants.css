@@ -1,0 +1,53 @@
+/* Le cadre qui limite la vue */
+.carousel-container {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* La bande qui défile */
+.carousel-track {
+    display: flex;
+    overflow-x: auto; /* Permet le scroll horizontal */
+    scroll-behavior: smooth; /* Animation fluide lors du clic */
+    scroll-snap-type: x mandatory; /* Force l'arrêt sur une carte */
+    gap: 20px;
+    padding: 20px 0;
+    
+    /* Cache la barre de défilement sur Chrome/Safari/Firefox */
+    scrollbar-width: none; 
+}
+.carousel-track::-webkit-scrollbar { display: none; }
+
+/* Chaque fiche de prof */
+.profile-card {
+    flex: 0 0 100%; /* Une seule fiche visible à la fois */
+    scroll-snap-align: center; /* La fiche s'aimante au centre */
+    background: #f4f4f4;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.profile-card img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Les boutons */
+.prev, .next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #333;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    z-index: 10;
+}
+.prev { left: -50px; }
+.next { right: -50px; }

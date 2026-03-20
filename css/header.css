@@ -1,0 +1,184 @@
+/* ============================================================
+   css/header.css — LIQUID GLASS Frutiger Aero
+   Verre liquide · aberration chromatique · specular
+   ============================================================ */
+
+:root {
+    --font-main  : -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    --navy       : #082840;
+    --glass-bg   : rgba(255,255,255,0.08);
+    --glass-blur : blur(56px) saturate(200%) brightness(1.08);
+}
+
+/* ── Header liquid glass ── */
+.header {
+    display         : flex;
+    align-items     : center;
+    justify-content : center;
+    padding         : 0 2.6rem;
+    height          : 90px;
+    position        : sticky;
+    top             : 0;
+    z-index         : 1000;
+    overflow        : hidden;
+    font-family     : var(--font-main);
+
+    /* Fond verre liquide — plus foncé */
+    background: rgba(10, 80, 150, 0.55);
+    backdrop-filter        : blur(24px) saturate(140%) brightness(0.88);
+    -webkit-backdrop-filter: blur(24px) saturate(140%) brightness(0.88);
+
+    /* Bordure chromatique — effet prisme */
+    border-bottom: 1px solid rgba(255,255,255,0.22);
+
+    box-shadow:
+        /* Ombre externe */
+        0 8px 32px rgba(0, 80, 150, 0.28),
+        /* Specular — ligne brillante haute */
+        0 1px 0    rgba(255,255,255,0.80) inset,
+        /* Halo couleur bas */
+        0 -1px 0   rgba(100,220,255,0.20) inset;
+}
+
+/* Specular highlight — bande blanche brillante */
+.header::before {
+    content    : '';
+    position   : absolute;
+    inset      : 0 0 52% 0;
+    background : linear-gradient(
+        180deg,
+        rgba(255,255,255,0.18) 0%,
+        rgba(255,255,255,0.00) 100%
+    );
+    pointer-events : none;
+    z-index        : 0;
+}
+
+/* Caustique arc-en-ciel — lumière à travers le verre */
+.header::after {
+    content    : '';
+    position   : absolute;
+    inset      : 0;
+    background :
+        radial-gradient(ellipse 35% 60% at 20% 50%,  rgba(180,100,255,0.06) 0%, transparent 70%),
+        radial-gradient(ellipse 25% 80% at 80% 40%,  rgba(100,220,255,0.07) 0%, transparent 65%),
+        radial-gradient(ellipse 20% 50% at 50% 100%, rgba(100,255,200,0.05) 0%, transparent 60%);
+    pointer-events: none;
+    z-index       : 0;
+}
+
+/* ── Logo ── */
+.logo {
+    display        : flex;
+    align-items    : center;
+    gap            : 0.7rem;
+    text-decoration: none;
+    position       : absolute;
+    left           : 2.6rem;
+    z-index        : 1;
+}
+
+.logo-image {
+    height : 60px;
+    width  : auto;
+    filter : brightness(0) invert(1)
+             drop-shadow(0 2px 8px rgba(0,80,150,0.50))
+             drop-shadow(0 0 16px rgba(150,230,255,0.40));
+}
+
+/* ── Navigation ── */
+.nav {
+    display    : flex;
+    align-items: center;
+    gap        : 0.32rem;
+    position   : relative;
+    z-index    : 1;
+}
+
+/* Pilule liquid glass */
+.nav a {
+    display        : inline-block;
+    padding        : 0.40rem 1.12rem;
+    border-radius  : 999px;
+    font-size      : 0.82rem;
+    font-weight    : 700;
+    text-decoration: none;
+    color          : rgba(255, 255, 255, 0.92);
+    position       : relative;
+    overflow       : hidden;
+    white-space    : nowrap;
+
+    /* Verre ultra-transparent */
+    background: rgba(255,255,255,0.22);
+    backdrop-filter        : blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+
+    /* Bordure chromatique */
+    border: 1px solid rgba(255,255,255,0.55);
+
+    box-shadow:
+        0 2px 12px rgba(0,100,180,0.18),
+        0 1px  0   rgba(255,255,255,0.92) inset,
+        0 -1px 0   rgba(100,200,255,0.18) inset;
+
+    transition: all 0.18s ease;
+}
+
+/* Specular pilule */
+.nav a::before {
+    content       : '';
+    position      : absolute;
+    inset         : 0 0 55% 0;
+    background    : linear-gradient(
+        180deg,
+        rgba(255,255,255,0.68) 0%,
+        rgba(255,255,255,0.04) 100%
+    );
+    border-radius : 999px 999px 0 0;
+    pointer-events: none;
+}
+
+/* Caustique bouton */
+.nav a::after {
+    content       : '';
+    position      : absolute;
+    inset         : 0;
+    border-radius : 999px;
+    background    :
+        radial-gradient(ellipse 60% 40% at 70% 80%, rgba(100,220,255,0.18) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 30% at 20% 70%, rgba(180,100,255,0.08) 0%, transparent 55%);
+    opacity       : 0;
+    transition    : opacity 0.18s ease;
+    pointer-events: none;
+}
+
+.nav a:hover {
+    background: rgba(255,255,255,0.34);
+    border-color: rgba(255,255,255,0.72);
+    box-shadow:
+        0 4px 20px rgba(0,100,180,0.28),
+        0 1px  0   rgba(255,255,255,1) inset,
+        0 -1px 0   rgba(100,200,255,0.25) inset;
+    transform : translateY(-2px);
+}
+.nav a:hover::after { opacity: 1; }
+
+.nav a.active {
+    background  : rgba(255,255,255,0.30);
+    border-color: rgba(255,255,255,0.70);
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+    .header {
+        flex-direction: column;
+        justify-content: flex-start;
+        height : auto;
+        padding: 0.8rem 1rem;
+        gap    : 0.5rem;
+    }
+    .logo { position: relative; left: auto; }
+    .logo-image { height: 46px; }
+    .nav { flex-wrap: wrap; justify-content: center; }
+    .nav a { font-size: 0.73rem; padding: 0.28rem 0.72rem; }
+}

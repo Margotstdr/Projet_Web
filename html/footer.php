@@ -1,5 +1,7 @@
 <?php
     echo '
+        <link rel="stylesheet" href="../css/footer.css">
+
         <footer class="footer">
             <section class="liens">
                 <a href="apropos.php"> A propos </a>

@@ -1,26 +1,11 @@
-/* css/cours.css — Blue/Turquoise Slimy Glass UI + Details (Prépas) + Accordion FIX */
-
 :root{
-  --bg: #f4fbff;
-
-  /* glass */
   --glass: rgba(255,255,255,0.55);
   --glass-strong: rgba(255,255,255,0.72);
   --stroke: rgba(0, 80, 120, 0.14);
-
-  /* text */
   --text: #0b1b2a;
   --muted: rgba(11, 27, 42, 0.70);
-
-  /* accents (blue -> turquoise) */
-  --a1: #1f7aff;   /* blue */
-  --a2: #25d6c7;   /* turquoise */
-  --a3: #00b7ff;   /* cyan */
-
-  /* shadows */
   --shadow: 0 22px 55px rgba(10, 70, 120, 0.18);
   --shadow2: 0 12px 26px rgba(10, 70, 120, 0.12);
-
   --radius: 24px;
 }
 
@@ -30,7 +15,6 @@ body{
   margin:0;
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display","SF Pro Text", Arial, sans-serif;
   color: var(--text);
-
   background:
     radial-gradient(900px 520px at 15% 10%, rgba(31,122,255,0.22), transparent 60%),
     radial-gradient(850px 520px at 85% 12%, rgba(37,214,199,0.18), transparent 62%),
@@ -38,7 +22,6 @@ body{
     linear-gradient(180deg, #f2fbff 0%, #f7fbff 60%, #f4fbff 100%);
 }
 
-/* ---- Layout ---- */
 .formations{
   max-width: 1100px;
   margin: 70px auto;
@@ -54,7 +37,6 @@ body{
 .formations__left{ width: 40%; }
 .formations__right{ width: 60%; }
 
-/* ---- Left Cards ---- */
 .program-card{
   width: 100%;
   border: 1px solid var(--stroke);
@@ -62,18 +44,15 @@ body{
   border-radius: var(--radius);
   padding: 18px 18px;
   margin-bottom: 16px;
-
   cursor: pointer;
   display:flex;
   justify-content: space-between;
   align-items:flex-start;
   text-align:left;
-
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-
   box-shadow: var(--shadow2);
-  transition: transform .22s ease, box-shadow .22s ease, background .22s ease, border-color .22s ease, filter .22s ease;
+  transition: transform .22s ease, box-shadow .22s ease, background .22s ease, border-color .22s ease;
   position: relative;
   overflow: hidden;
 }
@@ -125,15 +104,12 @@ body{
   width: 40px;
   height: 40px;
   border-radius: 999px;
-
   background: linear-gradient(135deg, rgba(31,122,255,0.95), rgba(37,214,199,0.95));
   color: #ffffff;
-
   display:grid;
   place-items:center;
   font-size: 20px;
   flex: 0 0 auto;
-
   box-shadow: 0 14px 30px rgba(31,122,255,0.20), 0 10px 22px rgba(37,214,199,0.16);
   transition: transform .22s ease, filter .22s ease;
   position: relative;
@@ -145,7 +121,6 @@ body{
   filter: brightness(1.05);
 }
 
-/* ---- Right Panels ---- */
 .program-panel{
   display:none;
   border-left: 1px solid rgba(0, 110, 170, 0.16);
@@ -160,24 +135,18 @@ body{
   to{ opacity: 1; transform: translateY(0); }
 }
 
-/* ---- Rows (right items) ---- */
 .panel-row{
   display:flex;
   align-items:center;
   gap: 12px;
-
   padding: 16px 14px;
   border-radius: 20px;
-
   text-decoration:none;
   color: inherit;
-
   background: rgba(255,255,255,0.52);
   border: 1px solid rgba(0, 110, 170, 0.12);
-
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-
   margin-bottom: 12px;
   box-shadow: 0 12px 26px rgba(10, 70, 120, 0.10);
   transition: transform .18s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease;
@@ -230,28 +199,21 @@ body{
   z-index: 1;
 }
 
-/* =========================
-   DETAILS AREA (Prépas açılan kısım)
-   ========================= */
-
-#detailsArea.details{
+#detailsArea{
   width: 100%;
   margin-top: 22px;
   padding: 18px;
   border-radius: calc(var(--radius) + 6px);
-
   background: rgba(255,255,255,0.55);
   border: 1px solid rgba(0, 110, 170, 0.12);
-
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-
   box-shadow: var(--shadow2);
   position: relative;
   overflow: hidden;
 }
 
-#detailsArea.details::before{
+#detailsArea::before{
   content:"";
   position:absolute;
   inset:-50px;
@@ -263,58 +225,111 @@ body{
   pointer-events:none;
 }
 
+#detailsArea *{ position: relative; z-index: 1; }
+
 #detailsArea .details__head{
   display:flex;
   align-items:center;
   justify-content: space-between;
   gap: 12px;
   margin-bottom: 10px;
-  position: relative;
-  z-index: 1;
 }
 
 #detailsArea .details__title{
-  font-size: 18px !important;
-  margin: 0 !important;
+  font-size: 18px;
+  margin: 0;
   letter-spacing: -0.2px;
 }
 
 #detailsArea .details__close{
   appearance: none;
   -webkit-appearance: none;
-  border: 1px solid rgba(0,110,170,0.14) !important;
-  background: rgba(255,255,255,0.45) !important;
-  color: rgba(11,27,42,0.85) !important;
-  padding: 8px 10px !important;
-  border-radius: 14px !important;
-  cursor:pointer !important;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  transition: transform .15s ease, background .15s ease;
-  position: relative;
-  z-index: 1;
-}
-
-#detailsArea .details__close:hover{
-  transform: translateY(-1px);
-  background: rgba(255,255,255,0.65) !important;
+  font-family: inherit;
+  border: 1px solid rgba(0,110,170,0.14);
+  background: rgba(255,255,255,0.45);
+  color: rgba(11,27,42,0.85);
+  padding: 8px 10px;
+  border-radius: 14px;
+  cursor:pointer;
 }
 
 #detailsArea .details__sectionTitle{
-  font-size: 16px !important;
-  margin: 8px 0 14px !important;
+  font-size: 16px;
+  margin: 8px 0 14px;
   color: rgba(11,27,42,0.86);
-  position: relative;
-  z-index: 1;
 }
 
-/* 2 kolon kutular */
+.prepasIntroGrid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-bottom: 20px;
+}
+
+.prepasIntroCard{
+  padding: 18px;
+  border-radius: 22px;
+  background: linear-gradient(135deg, rgba(31,122,255,0.25), rgba(37,214,199,0.25));
+  border: 1px solid rgba(0, 110, 170, 0.18);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 12px 26px rgba(10, 70, 120, 0.12);
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.prepasIntroCard::before{
+  content:"";
+  position:absolute;
+  inset:-40px;
+  background: radial-gradient(400px 200px at 20% 20%, rgba(255,255,255,0.2), transparent 60%);
+  filter: blur(12px);
+  opacity: .7;
+}
+
+.prepasIntroCard h4{
+  margin: 0 0 10px;
+  font-size: 16px;
+  color: white;
+}
+
+.prepasIntroCard p,
+.prepasIntroCard ul,
+.prepasIntroCard li,
+.prepasIntroCard a,
+.prepasIntroCard strong{
+  color: white;
+}
+
+.prepasIntroCard p{
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.prepasIntroCard ul{
+  padding-left: 18px;
+  margin: 0;
+}
+
+.prepasIntroCard li{
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+
+.prepasIntroCard .responsable{
+  margin-top: 10px;
+  font-size: 12px;
+}
+
+.prepasIntroCard a{
+  text-decoration: underline;
+}
+
 #detailsArea .prepasGrid{
   display:grid;
   grid-template-columns: 1fr 1fr;
   gap: 18px;
-  position: relative;
-  z-index: 1;
 }
 
 #detailsArea .prepasCard{
@@ -322,18 +337,14 @@ body{
   border-radius: calc(var(--radius) - 4px);
   background: rgba(255,255,255,0.52);
   border: 1px solid rgba(0, 110, 170, 0.10);
-
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-
   box-shadow: 0 10px 22px rgba(10, 70, 120, 0.10);
-  overflow: hidden;
 }
 
 #detailsArea .prepasCard__title{
-  font-size: 14.5px !important;
-  margin: 0 0 12px !important;
-  letter-spacing: -0.1px;
+  font-size: 14.5px;
+  margin: 0 0 12px;
 }
 
 #detailsArea .prepasCard__title span{
@@ -342,37 +353,23 @@ body{
   font-size: 12px;
 }
 
-/* Accordion */
 #detailsArea .acc{ margin-bottom: 10px; }
 
 #detailsArea button.acc__btn{
   appearance: none;
   -webkit-appearance: none;
-
-  width: 100% !important;
-  display:flex !important;
-  align-items:center !important;
-  justify-content: space-between !important;
+  font-family: inherit;
+  width: 100%;
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
   gap: 10px;
-
-  padding: 12px 12px !important;
-  border-radius: 18px !important;
-  cursor:pointer !important;
-
-  border: 1px solid rgba(0, 110, 170, 0.10) !important;
-  background: rgba(255,255,255,0.45) !important;
-  color: rgba(11,27,42,0.92) !important;
-
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-
-  transition: transform .15s ease, background .15s ease, border-color .15s ease;
-}
-
-#detailsArea button.acc__btn:hover{
-  transform: translateY(-1px);
-  background: rgba(255,255,255,0.65) !important;
-  border-color: rgba(0, 140, 190, 0.20) !important;
+  padding: 12px 12px;
+  border-radius: 18px;
+  cursor:pointer;
+  border: 1px solid rgba(0, 110, 170, 0.10);
+  background: rgba(255,255,255,0.45);
+  color: rgba(11,27,42,0.92);
 }
 
 #detailsArea .acc__btn small{
@@ -388,7 +385,6 @@ body{
   place-items:center;
   color: #fff;
   background: linear-gradient(135deg, rgba(31,122,255,0.95), rgba(37,214,199,0.95));
-  box-shadow: 0 10px 22px rgba(31,122,255,0.18), 0 8px 18px rgba(37,214,199,0.14);
   flex: 0 0 auto;
 }
 
@@ -406,131 +402,132 @@ body{
   color: rgba(11,27,42,0.82);
 }
 
-/* ---- Mobile ---- */
 @media (max-width: 900px){
   .formations__grid{ flex-direction: column; }
   .formations__left, .formations__right{ width: 100%; }
   .program-panel{ border-left: 0; padding-left: 0; }
-
-  #detailsArea .prepasGrid{ grid-template-columns: 1fr; }
+  #detailsArea .prepasGrid,
+  .prepasIntroGrid{
+    grid-template-columns: 1fr;
+  }
 }
 
-/* =========================
-   ACİL FIX: Prépas detayında CSS kesin uygulansın
-   (class eksik olsa bile çalışır)
-   ========================= */
-
-#detailsArea{
-  display: block;
-  width: 100%;
-  margin-top: 22px;
-  padding: 18px;
-  border-radius: 30px;
-
+.ingenieurTextBox{
+  padding: 20px;
+  border-radius: 22px;
   background: rgba(255,255,255,0.55);
   border: 1px solid rgba(0, 110, 170, 0.12);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 10px 22px rgba(10, 70, 120, 0.10);
+  margin-bottom: 20px;
+}
 
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+.ingenieurTextBox p{
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.8;
+  color: rgba(11,27,42,0.75);
+}
 
+.ingenieurIntroGrid{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+
+.ingenieurIntroCard{
+  padding: 22px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(31,122,255,0.85), rgba(37,214,199,0.65));
+  border: 1px solid rgba(0, 110, 170, 0.18);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   box-shadow: 0 12px 26px rgba(10, 70, 120, 0.12);
+  color: white;
   position: relative;
   overflow: hidden;
 }
 
-#detailsArea::before{
+.ingenieurIntroCard::before{
   content:"";
   position:absolute;
-  inset:-50px;
-  background:
-    radial-gradient(520px 260px at 15% 10%, rgba(31,122,255,0.18), transparent 60%),
-    radial-gradient(520px 260px at 85% 30%, rgba(37,214,199,0.16), transparent 60%);
-  filter: blur(14px);
-  opacity: .9;
-  pointer-events:none;
+  inset:-40px;
+  background: radial-gradient(400px 200px at 20% 20%, rgba(255,255,255,0.2), transparent 60%);
+  filter: blur(12px);
+  opacity: .7;
 }
 
-#detailsArea *{
+.ingenieurIntroCard h4{
+  margin: 0 0 12px;
+  font-size: 18px;
+  color: white;
   position: relative;
   z-index: 1;
 }
 
-#detailsArea h2{
-  margin: 0 0 10px !important;
-  font-size: 18px !important;
-  letter-spacing: -0.2px;
+.ingenieurIntroCard p,
+.ingenieurIntroCard a,
+.ingenieurIntroCard strong{
+  position: relative;
+  z-index: 1;
+  color: white;
 }
 
-#detailsArea h3{
-  margin: 8px 0 14px !important;
-  font-size: 16px !important;
-  opacity: .92;
+.ingenieurIntroCard p{
+  font-size: 14px;
+  line-height: 1.8;
 }
 
-#detailsArea h4{
-  margin: 0 0 12px !important;
-  font-size: 14.5px !important;
-  opacity: .95;
+.ingenieurIntroCard .responsable{
+  margin-top: 14px;
+  font-size: 13px;
 }
 
-#detailsArea button{
-  appearance: none;
-  -webkit-appearance: none;
-  font-family: inherit;
+.ingenieurIntroCard a{
+  text-decoration: underline;
 }
 
-/* 2 kolon kart düzeni: class varsa da yoksa da */
-#detailsArea .prepasGrid{
-  display:grid;
+.majeures-block{
+  display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 18px;
+  align-items: start;
 }
 
-#detailsArea .prepasCard{
-  padding: 16px;
-  border-radius: 22px;
-  background: rgba(255,255,255,0.52);
+.majeures-menu{
+  padding: 10px 0;
+  border-left: 1px solid rgba(0, 110, 170, 0.16);
+}
+
+.majeures-link{
+  display: block;
+  padding: 14px 18px;
+  margin-bottom: 10px;
+  border-radius: 18px;
+  text-decoration: none;
+  color: var(--text);
+  background: rgba(255,255,255,0.40);
   border: 1px solid rgba(0, 110, 170, 0.10);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  box-shadow: 0 10px 22px rgba(10, 70, 120, 0.10);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 10px 22px rgba(10, 70, 120, 0.08);
+  transition: transform .18s ease, background .18s ease, box-shadow .18s ease;
 }
 
-/* Accordion butonları: class olsa da olmasa da */
-#detailsArea .acc__btn,
-#detailsArea .acc button{
-  width: 100% !important;
-  display:flex !important;
-  align-items:center !important;
-  justify-content: space-between !important;
-  gap: 10px;
-
-  padding: 12px 12px !important;
-  border-radius: 18px !important;
-
-  border: 1px solid rgba(0, 110, 170, 0.10) !important;
-  background: rgba(255,255,255,0.45) !important;
-  color: rgba(11,27,42,0.92) !important;
-
-  cursor:pointer !important;
-  margin: 10px 0 0;
+.majeures-link:hover{
+  transform: translateY(-2px);
+  background: rgba(255,255,255,0.70);
+  box-shadow: 0 14px 28px rgba(10, 70, 120, 0.12);
 }
 
-#detailsArea .acc__panel{
-  padding: 10px 12px 2px;
-}
-
-#detailsArea ul{
-  margin: 8px 0 0;
-  padding-left: 18px;
-}
-
-#detailsArea li{
-  margin: 6px 0;
-  color: rgba(11,27,42,0.82);
-}
-
-/* mobil */
 @media (max-width: 900px){
-  #detailsArea .prepasGrid{ grid-template-columns: 1fr; }
+  .majeures-block{
+    grid-template-columns: 1fr;
+  }
+
+  .majeures-menu{
+    border-left: 0;
+    padding-top: 0;
+  }
 }

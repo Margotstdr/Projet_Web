@@ -11,6 +11,8 @@
 </head>
 <body>
 
+<?php include 'header.php'; ?>
+
 <section class="formations">
   <div class="formations__grid">
 
@@ -79,6 +81,7 @@
       <button type="button" class="details__close" onclick="closeDetails()">✕</button>
     </div>
 
+    <!-- PREPAS -->
     <div id="details-prepas" class="details__content" style="display:none;">
       <h3 class="details__sectionTitle">Nos programmes prépas</h3>
 
@@ -179,99 +182,139 @@
       </div>
     </div>
 
-
+    <!-- INGENIEUR -->
     <div id="details-ingenieur" class="details__content" style="display:none;">
-  <h3 class="details__sectionTitle">Cycle Ingénieur</h3>
+      <h3 class="details__sectionTitle">Cycle Ingénieur</h3>
 
-  <div class="ingenieurTextBox">
-    <p>
-      Le cycle ingénieur, permet pendant au moins trois ans (quatre si réalisation d’un double-diplôme)
-      à chaque étudiant, en accord avec ses projets personnels et professionnels, de choisir son parcours
-      de formation parmi les 4 filières proposées par l’école (Information Technology, Sécurité et Réseaux,
-      Data Science, Systèmes Embarqués). La première année de cycle ingénieur (ING1) a pour objectif
-      d’harmoniser les connaissances des étudiants qui intègrent l’Efrei avec celles des élèves qui ont déjà
-      suivi le cycle prépa. Cette année de tronc commun se compose d’un semestre à l’international
-      et d’un semestre de cours à Paris ou à Bordeaux.
-    </p>
-  </div>
+      <div class="ingenieurTextBox">
+        <p>
+          Le cycle ingénieur, permet pendant au moins trois ans (quatre si réalisation d’un double-diplôme)
+          à chaque étudiant, en accord avec ses projets personnels et professionnels, de choisir son parcours
+          de formation parmi les 4 filières proposées par l’école (Information Technology, Sécurité et Réseaux,
+          Data Science, Systèmes Embarqués). La première année de cycle ingénieur (ING1) a pour objectif
+          d’harmoniser les connaissances des étudiants qui intègrent l’Efrei avec celles des élèves qui ont déjà
+          suivi le cycle prépa. Cette année de tronc commun se compose d’un semestre à l’international
+          et d’un semestre de cours à Paris ou à Bordeaux.
+        </p>
+      </div>
 
-  <div class="ingenieurIntroGrid">
-    <div class="ingenieurIntroCard">
-      <h4>✨ Présentation</h4>
-      <p>
-        Cette année de tronc commun se compose d’un semestre à l’international dans le cadre
-        de la mobilité étudiante et d’un semestre de cours à Paris. À son issue, les élèves peuvent
-        choisir une des 13 majeures proposées au sein des 4 filières de l’école en vue de se spécialiser
-        dans un domaine précis du numérique.
-      </p>
+      <div class="ingenieurIntroGrid">
+        <div class="ingenieurIntroCard">
+          <h4>✨ Présentation</h4>
+          <p>
+            Cette année de tronc commun se compose d’un semestre à l’international dans le cadre
+            de la mobilité étudiante et d’un semestre de cours à Paris. À son issue, les élèves peuvent
+            choisir une des 13 majeures proposées au sein des 4 filières de l’école en vue de se spécialiser
+            dans un domaine précis du numérique.
+          </p>
 
-      <p class="responsable">
-        Responsable de la formation :
-        <strong>Ziad ADEM</strong><br>
-        <a href="#">ziad.adem@efrei.fr</a>
-      </p>
+          <p class="responsable">
+            Responsable de la formation :
+            <strong>Ziad ADEM</strong><br>
+            <a href="#">ziad.adem@efrei.fr</a>
+          </p>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
 
+    <!-- MAJEURES -->
+    <div id="details-majeures" class="details__content" style="display:none;">
+      <h3 class="details__sectionTitle">Majeures de spécialisation</h3>
 
-<div id="details-ingenieur" class="details__content" style="display:none;">
-  <h3 class="details__sectionTitle">Cycle Ingénieur</h3>
+      <div class="majeures-layout">
+        <div class="majeures-left">
+          <a href="#" class="majeures-main-link" onclick="showMajeureGroup('datascience'); return false;">
+            Filière Data Science
+          </a>
 
-  <div class="ingenieurTextBox">
-    <p>
-      Le cycle ingénieur, permet pendant au moins trois ans (quatre si réalisation d’un double-diplôme)
-      à chaque étudiant, en accord avec ses projets personnels et professionnels, de choisir son parcours
-      de formation parmi les 4 filières proposées par l’école (Information Technology, Sécurité et Réseaux,
-      Data Science, Systèmes Embarqués). La première année de cycle ingénieur (ING1) a pour objectif
-      d’harmoniser les connaissances des étudiants qui intègrent l’Efrei avec celles des élèves qui ont déjà
-      suivi le cycle prépa. Cette année de tronc commun se compose d’un semestre à l’international
-      et d’un semestre de cours à Paris ou à Bordeaux.
-    </p>
-  </div>
+          <a href="#" class="majeures-main-link" onclick="showMajeureGroup('it'); return false;">
+            Filière Information Technology
+          </a>
 
-  <div class="ingenieurIntroGrid">
-    <div class="ingenieurIntroCard">
-      <h4>✨ Présentation</h4>
-      <p>
-        Cette année de tronc commun se compose d’un semestre à l’international dans le cadre
-        de la mobilité étudiante et d’un semestre de cours à Paris. À son issue, les élèves peuvent
-        choisir une des 13 majeures proposées au sein des 4 filières de l’école en vue de se spécialiser
-        dans un domaine précis du numérique.
-      </p>
+          <a href="#" class="majeures-main-link" onclick="showMajeureGroup('securite'); return false;">
+            Filière Sécurité & Réseaux
+          </a>
 
-      <p class="responsable">
-        Responsable de la formation :
-        <strong>Ziad ADEM</strong><br>
-        <a href="#">ziad.adem@efrei.fr</a>
-      </p>
+          <a href="#" class="majeures-main-link" onclick="showMajeureGroup('embarques'); return false;">
+            Filière Systèmes embarqués
+          </a>
+
+          <a href="#" class="majeures-main-link" onclick="showMajeureGroup('apprentissage'); return false;">
+            Filières en apprentissage
+          </a>
+        </div>
+
+        <div class="majeures-right">
+          <div id="majeure-group-datascience" class="majeure-group" style="display:none;">
+            <div class="majeure-subitem">Data & Artificial Intelligence</div>
+            <div class="majeure-subitem">Data Engineering</div>
+            <div class="majeure-subitem">Bio & Numérique</div>
+            <div class="majeure-subitem">Business Intelligence & Analytics</div>
+          </div>
+
+          <div id="majeure-group-it" class="majeure-group" style="display:none;">
+            <div class="majeure-subitem">Information Systems Strategy and Governance</div>
+            <div class="majeure-subitem">Software Engineering</div>
+            <div class="majeure-subitem">IT for Finance</div>
+            <div class="majeure-subitem">Technologies immersives et IA</div>
+          </div>
+
+          <div id="majeure-group-securite" class="majeure-group" style="display:none;">
+            <div class="majeure-subitem">Cybersécurité, SI & Gouvernance</div>
+            <div class="majeure-subitem">Cybersécurité, infrastructures et logiciels</div>
+            <div class="majeure-subitem">Cybersécurité & Cloud</div>
+          </div>
+
+          <div id="majeure-group-embarques" class="majeure-group" style="display:none;">
+            <div class="majeure-subitem">Transports intelligents</div>
+            <div class="majeure-subitem">Systèmes robotiques et drones</div>
+          </div>
+
+          <div id="majeure-group-apprentissage" class="majeure-group" style="display:none;">
+            <div class="majeure-subitem">Logiciels et Systèmes d'information</div>
+            <div class="majeure-subitem">Big Data & Machine Learning</div>
+            <div class="majeure-subitem">Réseaux et sécurité</div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-
-  <div id="details-majeures" class="details__content" style="display:none;">
-  <h3 class="details__sectionTitle">Majeures de spécialisation</h3>
-
-  <div class="majeures-block">
-    <a class="panel-row" href="#" onclick="toggleMajeuresMenu(); return false;">
-      <span class="panel-row__title">Majeures de spécialisation</span>
-      <span class="panel-row__meta">ING2 & ING3</span>
-      <span class="panel-row__arrow">›</span>
-    </a>
-
-    <div id="majeuresMenu" class="majeures-menu" style="display:none;">
-      <a href="data-science.php" class="majeures-link">Filière Data Science</a>
-      <a href="information-technology.php" class="majeures-link">Filière Information Technology</a>
-      <a href="securite-reseaux.php" class="majeures-link">Filière Sécurité & Réseaux</a>
-      <a href="systemes-embarques.php" class="majeures-link">Filière Systèmes embarqués</a>
-      <a href="filieres-apprentissage.php" class="majeures-link">Filières en apprentissage</a>
-    </div>
-  </div>
-</div>
 
     <div id="details-bachelors" class="details__content" style="display:none;">
-      <p>Bachelors / Licences detayını sonra dolduracağız.</p>
+  <h3 class="details__sectionTitle">Bachelors / Licences</h3>
+
+  <div class="bachelors-layout">
+    <div class="bachelors-left">
+      <a href="#" class="bachelors-main-link" onclick="showBachelorGroup('bts'); return false;">
+        BTS <span>[BTS1 & BTS2]</span>
+      </a>
+
+      <a href="#" class="bachelors-main-link is-active" onclick="showBachelorGroup('licences'); return false;">
+        Bachelors / Licences <span>[B1, B2 & B3]</span>
+      </a>
+
+      <a href="#" class="bachelors-main-link" onclick="showBachelorGroup('masteres'); return false;">
+        Mastères <span>[M1 & M2]</span>
+      </a>
     </div>
+
+    <div class="bachelors-right">
+      <div id="bachelor-group-bts" class="bachelor-group" style="display:none;">
+        <div class="bachelor-subitem">Contenu BTS à ajouter plus tard</div>
+      </div>
+
+      <div id="bachelor-group-licences" class="bachelor-group" style="display:grid;">
+        <div class="bachelor-subitem">Bachelor Développeur web & IA</div>
+        <div class="bachelor-subitem">Bachelor Cybersécurité & réseaux (Grade de Licence)</div>
+        <div class="bachelor-subitem">Bachelor Cybersécurité & ethical hacking</div>
+        <div class="bachelor-subitem">Bachelor Informatique (Grade de licence)</div>
+      </div>
+
+      <div id="bachelor-group-masteres" class="bachelor-group" style="display:none;">
+        <div class="bachelor-subitem">Contenu Mastères à ajouter plus tard</div>
+      </div>
+    </div>
+  </div>
+</div>
 
     <div id="details-masteres" class="details__content" style="display:none;">
       <p>Mastères detayını sonra dolduracağız.</p>
@@ -279,6 +322,7 @@
   </section>
 </section>
 
+<?php include 'footer.php'; ?>
 <script src="../js/cours.js"></script>
 </body>
 </html>

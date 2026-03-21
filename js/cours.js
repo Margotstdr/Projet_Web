@@ -123,3 +123,43 @@ document.addEventListener("click", function (e) {
   panel.style.display = isOpen ? "none" : "block";
   if (icon) icon.textContent = isOpen ? "+" : "-";
 });
+
+function showMajeureGroup(groupKey) {
+  document.querySelectorAll(".majeure-group").forEach(function (el) {
+    el.style.display = "none";
+  });
+
+  document.querySelectorAll(".majeures-main-link").forEach(function (el) {
+    el.classList.remove("is-active");
+  });
+
+  var target = document.getElementById("majeure-group-" + groupKey);
+  if (target) {
+    target.style.display = "grid";
+  }
+
+  var clicked = document.querySelector('.majeures-main-link[onclick*="' + groupKey + '"]');
+  if (clicked) {
+    clicked.classList.add("is-active");
+  }
+}
+
+function showBachelorGroup(groupKey) {
+  document.querySelectorAll(".bachelor-group").forEach(function (el) {
+    el.style.display = "none";
+  });
+
+  document.querySelectorAll(".bachelors-main-link").forEach(function (el) {
+    el.classList.remove("is-active");
+  });
+
+  var target = document.getElementById("bachelor-group-" + groupKey);
+  if (target) {
+    target.style.display = "grid";
+  }
+
+  var clicked = document.querySelector('.bachelors-main-link[onclick*="' + groupKey + '"]');
+  if (clicked) {
+    clicked.classList.add("is-active");
+  }
+}

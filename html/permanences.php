@@ -1,15 +1,90 @@
+<?php
+    session_start();
+    include 'db.php';
+
+    // ─── Accès réservé aux étudiants connectés ─────────────────────────────────
+    if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'etudiant') {
+        header('Location: connexion.php');
+        exit();
+    }
+
+    // ─── Calcul de la semaine à afficher ───────────────────────────────────────
+    $offset = isset($_GET['offset']) ? (int)$_GET['offset'] : 0;
+
+    // Trouver le lundi de la semaine actuelle
+    $aujourdhui  = new DateTime();
+    $jourSemaine = (int)$aujourdhui->format('N'); // 1 = lundi … 7 = dimanche
+    $lundi       = clone $aujourdhui;
+    $lundi->modify('-' . ($jourSemaine - 1) . ' days');
+
+    // Appliquer l'offset en semaines
+    $lundi->modify($offset . ' weeks');
+    $vendredi = clone $lundi;
+    $vendredi->modify('+4 days');
+
+    // Tableau des 5 jours
+    $nomJours = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi'];
+    $jours    = [];
+    for ($i = 0; $i < 5; $i++) {
+        $jour = clone $lundi;
+        $jour->modify("+$i days");
+        $jours[] = $jour;
+    }
+
+    // ─── Récupération des permanences en BDD ───────────────────────────────────
+    $dateDebut = $lundi->format('Y-m-d');
+    $dateFin   = $vendredi->format('Y-m-d');
+
+    $stmt = $pdo->prepare("
+        SELECT p.id_perm, p.matiere_perm, p.heure_perm, p.salle_perm, p.date_perm,
+            e.nom_ens, e.prenom_ens
+        FROM Permanence p
+        LEFT JOIN Enseignants e ON p.id_ens_responsable = e.id_ens
+        WHERE p.date_perm BETWEEN ? AND ?
+        ORDER BY p.date_perm, p.heure_perm
+    ");
+    $stmt->execute([$dateDebut, $dateFin]);
+    $toutesLesPerms = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Grouper par date
+    $permParJour = [];
+    foreach ($toutesLesPerms as $perm) {
+        $permParJour[$perm['date_perm']][] = $perm;
+    }
+
+    // ─── Étudiant connecté ? ───────────────────────────────────────────────────
+    $estEtudiant = isset($_SESSION['role']) && $_SESSION['role'] === 'etudiant';
+
+    // ─── Titre de la semaine ───────────────────────────────────────────────────
+    $moisFr = [
+        1=>'janvier', 2=>'février', 3=>'mars', 4=>'avril', 5=>'mai', 6=>'juin',
+        7=>'juillet', 8=>'août', 9=>'septembre', 10=>'octobre', 11=>'novembre', 12=>'décembre'
+    ];
+    $jL = $lundi->format('j');
+    $jV = $vendredi->format('j');
+    $mL = $moisFr[(int)$lundi->format('n')];
+    $mV = $moisFr[(int)$vendredi->format('n')];
+    $an = $vendredi->format('Y');
+
+    $titreSemaine = ($lundi->format('n') === $vendredi->format('n'))
+        ? "Semaine du $jL au $jV $mV $an"
+        : "Semaine du $jL $mL au $jV $mV $an";
+
+    $offsetPrev = $offset - 1;
+    $offsetNext = $offset + 1;
+?>
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Permanences</title>
-    <!--<link rel="stylesheet" href="../css/style.css">-->
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/footer.css">
     <link rel="stylesheet" href="../css/permanences.css">
 </head>
-
 <body>
 
     <?php include 'header.php'; ?>
@@ -18,242 +93,62 @@
 
         <h1>Permanences</h1>
 
+        <!-- Navigation entre semaines -->
         <div class="navigation-semaine">
-            <a href="?semaine=-1" class="semaine-precedente">&#8249; Semaine précédente</a>
-            <h2 class="titre-semaine">Semaine du 17 au 21 mars 2025</h2>
-            <a href="?semaine=+1" class="semaine-suivante">Semaine suivante &#8250;</a>
+            <a href="?offset=<?= $offsetPrev ?>" class="semaine-precedente">&#8249; Semaine précédente</a>
+            <h2 class="titre-semaine"><?= htmlspecialchars($titreSemaine) ?></h2>
+            <a href="?offset=<?= $offsetNext ?>" class="semaine-suivante">Semaine suivante &#8250;</a>
         </div>
 
+        <!-- Grille des jours -->
         <div class="grille-semaine">
 
-            <!-- LUNDI -->
-            <div class="jour" id="lundi">
-                <h3>Lundi 17 mars</h3>
+            <?php foreach ($jours as $i => $jour): ?>
+                <?php
+                    $dateStr   = $jour->format('Y-m-d');
+                    $jourNum   = $jour->format('j');
+                    $moisNom   = $moisFr[(int)$jour->format('n')];
+                    $permsJour = $permParJour[$dateStr] ?? [];
+                    $idJour    = strtolower($nomJours[$i]);
+                ?>
+                <div class="jour" id="<?= $idJour ?>">
+                    <h3><?= $nomJours[$i] ?> <?= $jourNum ?> <?= $moisNom ?></h3>
 
-                <div class="permanence" id="perm-1">
-                    <p class="heure">09h00 – 10h00</p>
-                    <p class="prof">M. Martin</p>
-                    <p class="matiere">Algorithmique</p>
-                    <p class="salle">Salle 204</p>
-                    <a href="#inscription-1" class="btn-inscrire">S'inscrire</a>
+                    <?php if (empty($permsJour)): ?>
+                        <p class="aucune-perm">Aucune permanence</p>
+
+                    <?php else: ?>
+                        <?php foreach ($permsJour as $perm): ?>
+                            <?php
+                                // Heure affichée : "08h00 – 09h00"
+                                $heureRaw = substr($perm['heure_perm'], 0, 5);
+                                [$h, $m]  = explode(':', $heureRaw);
+                                $heureFin = sprintf('%02dh%02d', (int)$h + 1, (int)$m);
+                                $heureAff = str_replace(':', 'h', $heureRaw) . ' – ' . $heureFin;
+
+                                $prof    = htmlspecialchars($perm['prenom_ens'] . ' ' . $perm['nom_ens']);
+                                $matiere = htmlspecialchars($perm['matiere_perm']);
+                                $salle   = htmlspecialchars($perm['salle_perm'] ?? 'N/A');
+                                $idPerm  = (int)$perm['id_perm'];
+                            ?>
+                            <div class="permanence" id="perm-<?= $idPerm ?>">
+                                <p class="heure"><?= $heureAff ?></p>
+                                <p class="matiere"><?= $matiere ?></p>
+                                <p class="prof"><?= $prof ?></p>
+                                <p class="salle">Salle <?= $salle ?></p>
+                                <?php if ($estEtudiant): ?>
+                                    <a href="inscription.php?id_perm=<?= $idPerm ?>" class="btn-inscrire">S'inscrire</a>
+                                <?php else: ?>
+                                    <a href="connexion.php" class="btn-inscrire">Se connecter pour s'inscrire</a>
+                                <?php endif; ?>
+                            </div>
+                        <?php endforeach; ?>
+
+                    <?php endif; ?>
                 </div>
-
-                <div class="permanence" id="perm-2">
-                    <p class="heure">14h00 – 15h00</p>
-                    <p class="prof">Mme. Leroy</p>
-                    <p class="matiere">Bases de données</p>
-                    <p class="salle">Salle 102</p>
-                    <a href="#inscription-2" class="btn-inscrire">S'inscrire</a>
-                </div>
-
-            </div>
-
-            <!-- MARDI -->
-            <div class="jour" id="mardi">
-                <h3>Mardi 18 mars</h3>
-
-                <div class="permanence" id="perm-3">
-                    <p class="heure">10h00 – 11h00</p>
-                    <p class="prof">Mme. Bernard</p>
-                    <p class="matiere">Réseaux</p>
-                    <p class="salle">Salle 108</p>
-                    <a href="#inscription-3" class="btn-inscrire">S'inscrire</a>
-                </div>
-
-                <div class="permanence" id="perm-4">
-                    <p class="heure">15h00 – 16h00</p>
-                    <p class="prof">M. Dubois</p>
-                    <p class="matiere">Développement Web</p>
-                    <p class="salle">Salle 301</p>
-                    <a href="#inscription-4" class="btn-inscrire">S'inscrire</a>
-                </div>
-
-            </div>
-
-            <!-- MERCREDI -->
-            <div class="jour" id="mercredi">
-                <h3>Mercredi 19 mars</h3>
-
-                <div class="permanence" id="perm-5">
-                    <p class="heure">13h00 – 14h00</p>
-                    <p class="prof">M. Petit</p>
-                    <p class="matiere">Mathématiques</p>
-                    <p class="salle">Salle 301</p>
-                    <a href="#inscription-5" class="btn-inscrire">S'inscrire</a>
-                </div>
-
-            </div>
-
-            <!-- JEUDI -->
-            <div class="jour" id="jeudi">
-                <h3>Jeudi 20 mars</h3>
-
-                <div class="permanence" id="perm-6">
-                    <p class="heure">09h00 – 10h00</p>
-                    <p class="prof">M. Martin</p>
-                    <p class="matiere">Algorithmique</p>
-                    <p class="salle">Salle 204</p>
-                    <a href="#inscription-6" class="btn-inscrire">S'inscrire</a>
-                </div>
-
-                <div class="permanence" id="perm-7">
-                    <p class="heure">11h00 – 12h00</p>
-                    <p class="prof">Mme. Leroy</p>
-                    <p class="matiere">Bases de données</p>
-                    <p class="salle">Salle 205</p>
-                    <a href="#inscription-7" class="btn-inscrire">S'inscrire</a>
-                </div>
-
-                <div class="permanence" id="perm-8">
-                    <p class="heure">14h00 – 15h00</p>
-                    <p class="prof">Mme. Bernard</p>
-                    <p class="matiere">Réseaux</p>
-                    <p class="salle">Salle 108</p>
-                    <a href="#inscription-8" class="btn-inscrire">S'inscrire</a>
-                </div>
-
-            </div>
-
-            <!-- VENDREDI -->
-            <div class="jour" id="vendredi">
-                <h3>Vendredi 21 mars</h3>
-
-                <div class="permanence" id="perm-9">
-                    <p class="heure">11h00 – 12h00</p>
-                    <p class="prof">M. Dubois</p>
-                    <p class="matiere">Développement Web</p>
-                    <p class="salle">Salle 102</p>
-                    <a href="#inscription-9" class="btn-inscrire">S'inscrire</a>
-                </div>
-
-                <div class="permanence" id="perm-10">
-                    <p class="heure">13h00 – 14h00</p>
-                    <p class="prof">M. Petit</p>
-                    <p class="matiere">Mathématiques</p>
-                    <p class="salle">Salle 301</p>
-                    <a href="#inscription-10" class="btn-inscrire">S'inscrire</a>
-                </div>
-
-            </div>
+            <?php endforeach; ?>
 
         </div><!-- fin .grille-semaine -->
-
-
-        <!-- ===== FORMULAIRES D'INSCRIPTION ===== -->
-
-        <div class="inscriptions">
-
-            <div class="formulaire-inscription" id="inscription-1">
-                <h3>Inscription — M. Martin &middot; Algorithmique &middot; Lundi 09h-10h</h3>
-                <form method="post" action="">
-                    <label>Nom <input type="text" name="nom" required></label>
-                    <label>Prénom <input type="text" name="prenom" required></label>
-                    <label>Email <input type="email" name="email" required></label>
-                    <input type="hidden" name="permanence_id" value="1">
-                    <button type="submit">Confirmer l'inscription</button>
-                </form>
-            </div>
-
-            <div class="formulaire-inscription" id="inscription-2">
-                <h3>Inscription — Mme. Leroy &middot; Bases de données &middot; Lundi 14h-15h</h3>
-                <form method="post" action="">
-                    <label>Nom <input type="text" name="nom" required></label>
-                    <label>Prénom <input type="text" name="prenom" required></label>
-                    <label>Email <input type="email" name="email" required></label>
-                    <input type="hidden" name="permanence_id" value="2">
-                    <button type="submit">Confirmer l'inscription</button>
-                </form>
-            </div>
-
-            <div class="formulaire-inscription" id="inscription-3">
-                <h3>Inscription — Mme. Bernard &middot; Réseaux &middot; Mardi 10h-11h</h3>
-                <form method="post" action="">
-                    <label>Nom <input type="text" name="nom" required></label>
-                    <label>Prénom <input type="text" name="prenom" required></label>
-                    <label>Email <input type="email" name="email" required></label>
-                    <input type="hidden" name="permanence_id" value="3">
-                    <button type="submit">Confirmer l'inscription</button>
-                </form>
-            </div>
-
-            <div class="formulaire-inscription" id="inscription-4">
-                <h3>Inscription — M. Dubois &middot; Développement Web &middot; Mardi 15h-16h</h3>
-                <form method="post" action="">
-                    <label>Nom <input type="text" name="nom" required></label>
-                    <label>Prénom <input type="text" name="prenom" required></label>
-                    <label>Email <input type="email" name="email" required></label>
-                    <input type="hidden" name="permanence_id" value="4">
-                    <button type="submit">Confirmer l'inscription</button>
-                </form>
-            </div>
-
-            <div class="formulaire-inscription" id="inscription-5">
-                <h3>Inscription — M. Petit &middot; Mathématiques &middot; Mercredi 13h-14h</h3>
-                <form method="post" action="">
-                    <label>Nom <input type="text" name="nom" required></label>
-                    <label>Prénom <input type="text" name="prenom" required></label>
-                    <label>Email <input type="email" name="email" required></label>
-                    <input type="hidden" name="permanence_id" value="5">
-                    <button type="submit">Confirmer l'inscription</button>
-                </form>
-            </div>
-
-            <div class="formulaire-inscription" id="inscription-6">
-                <h3>Inscription — M. Martin &middot; Algorithmique &middot; Jeudi 09h-10h</h3>
-                <form method="post" action="">
-                    <label>Nom <input type="text" name="nom" required></label>
-                    <label>Prénom <input type="text" name="prenom" required></label>
-                    <label>Email <input type="email" name="email" required></label>
-                    <input type="hidden" name="permanence_id" value="6">
-                    <button type="submit">Confirmer l'inscription</button>
-                </form>
-            </div>
-
-            <div class="formulaire-inscription" id="inscription-7">
-                <h3>Inscription — Mme. Leroy &middot; Bases de données &middot; Jeudi 11h-12h</h3>
-                <form method="post" action="">
-                    <label>Nom <input type="text" name="nom" required></label>
-                    <label>Prénom <input type="text" name="prenom" required></label>
-                    <label>Email <input type="email" name="email" required></label>
-                    <input type="hidden" name="permanence_id" value="7">
-                    <button type="submit">Confirmer l'inscription</button>
-                </form>
-            </div>
-
-            <div class="formulaire-inscription" id="inscription-8">
-                <h3>Inscription — Mme. Bernard &middot; Réseaux &middot; Jeudi 14h-15h</h3>
-                <form method="post" action="">
-                    <label>Nom <input type="text" name="nom" required></label>
-                    <label>Prénom <input type="text" name="prenom" required></label>
-                    <label>Email <input type="email" name="email" required></label>
-                    <input type="hidden" name="permanence_id" value="8">
-                    <button type="submit">Confirmer l'inscription</button>
-                </form>
-            </div>
-
-            <div class="formulaire-inscription" id="inscription-9">
-                <h3>Inscription — M. Dubois &middot; Développement Web &middot; Vendredi 11h-12h</h3>
-                <form method="post" action="">
-                    <label>Nom <input type="text" name="nom" required></label>
-                    <label>Prénom <input type="text" name="prenom" required></label>
-                    <label>Email <input type="email" name="email" required></label>
-                    <input type="hidden" name="permanence_id" value="9">
-                    <button type="submit">Confirmer l'inscription</button>
-                </form>
-            </div>
-
-            <div class="formulaire-inscription" id="inscription-10">
-                <h3>Inscription — M. Petit &middot; Mathématiques &middot; Vendredi 13h-14h</h3>
-                <form method="post" action="">
-                    <label>Nom <input type="text" name="nom" required></label>
-                    <label>Prénom <input type="text" name="prenom" required></label>
-                    <label>Email <input type="email" name="email" required></label>
-                    <input type="hidden" name="permanence_id" value="10">
-                    <button type="submit">Confirmer l'inscription</button>
-                </form>
-            </div>
-
-        </div><!-- fin .inscriptions -->
 
     </div><!-- fin .agenda -->
 

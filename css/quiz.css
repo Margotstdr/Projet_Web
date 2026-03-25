@@ -10,7 +10,8 @@ body {
     color       : #082030;
     min-height  : 100vh;
     overflow-x  : hidden;
-    padding     : 0 0 3rem;
+    display     : flex;
+    flex-direction: column;
 
     background:
         radial-gradient(ellipse 400px 140px at 12% 10%, rgba(255,255,255,0.95), transparent 65%),
@@ -98,9 +99,10 @@ body > p {
 #quiz {
     max-width    : 680px;
     margin       : 0 auto;
-    padding      : 0 1.4rem;
+    padding      : 0 1.4rem 3rem;
     position     : relative;
     z-index      : 1;
+    flex         : 1;
 }
 
 /* ── Question — liquid glass ── */

@@ -61,28 +61,36 @@ $stmt = $pdo->prepare("
 $stmt->execute([$id_ens, $dateDebut, $dateFin]);
 $toutesLesPerms = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$permParJour = [];
-foreach ($toutesLesPerms as $perm) {
-    $permParJour[$perm['date_perm']][] = $perm;
+// ─── Map date → colonne CSS Grid ─────────────────────────────────────────────
+$dateColMap = [];
+foreach ($jours as $i => $jour) {
+    $dateColMap[$jour->format('Y-m-d')] = $i + 2;
 }
 
 // ─── Titre de semaine ────────────────────────────────────────────────────────
 $moisFr = [
+    1=>'jan', 2=>'fév', 3=>'mars', 4=>'avr', 5=>'mai', 6=>'juin',
+    7=>'juil', 8=>'août', 9=>'sep', 10=>'oct', 11=>'nov', 12=>'déc'
+];
+$moisFrLong = [
     1=>'janvier', 2=>'février', 3=>'mars', 4=>'avril', 5=>'mai', 6=>'juin',
     7=>'juillet', 8=>'août', 9=>'septembre', 10=>'octobre', 11=>'novembre', 12=>'décembre'
 ];
 $jL = $lundi->format('j');
 $jV = $vendredi->format('j');
-$mL = $moisFr[(int)$lundi->format('n')];
-$mV = $moisFr[(int)$vendredi->format('n')];
+$mL = $moisFrLong[(int)$lundi->format('n')];
+$mV = $moisFrLong[(int)$vendredi->format('n')];
 $an = $vendredi->format('Y');
 
 $titreSemaine = ($lundi->format('n') === $vendredi->format('n'))
     ? "Semaine du $jL au $jV $mV $an"
     : "Semaine du $jL $mL au $jV $mV $an";
 
-$offsetPrev = $offset - 1;
-$offsetNext = $offset + 1;
+$offsetPrev    = $offset - 1;
+$offsetNext    = $offset + 1;
+$heureDebut    = 8;
+$heureFin      = 19;
+$aujourdhuiStr = (new DateTime())->format('Y-m-d');
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -93,138 +101,7 @@ $offsetNext = $offset + 1;
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/footer.css">
     <link rel="stylesheet" href="../css/permanences.css">
-    <style>
-        /* ── Extras spécifiques à la vue prof ── */
-        .badge-inscrits {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.3rem;
-            margin-top: 0.4rem;
-            padding: 0.2rem 0.6rem;
-            border-radius: 999px;
-            font-size: 0.70rem;
-            font-weight: 700;
-            color: rgba(255,255,255,0.90);
-            background: rgba(255,255,255,0.14);
-            border: 1px solid rgba(255,255,255,0.32);
-        }
-        .badge-inscrits.plein {
-            background: rgba(255,180,50,0.22);
-            border-color: rgba(255,200,80,0.45);
-            color: #fff8d0;
-        }
-
-        .btn-voir, .btn-supprimer {
-            display: inline-block;
-            margin-top: 0.4rem;
-            margin-right: 0.3rem;
-            padding: 0.25rem 0.65rem;
-            border-radius: 999px;
-            font-size: 0.70rem;
-            font-weight: 700;
-            text-decoration: none;
-            cursor: pointer;
-            border: 1px solid rgba(255,255,255,0.40);
-            font-family: inherit;
-            transition: background .15s, transform .15s;
-        }
-        .btn-voir {
-            color: rgba(255,255,255,0.95);
-            background: rgba(255,255,255,0.14);
-            box-shadow: 0 1px 0 rgba(255,255,255,0.65) inset;
-        }
-        .btn-voir:hover { background: rgba(255,255,255,0.24); transform: translateY(-1px); }
-
-        .btn-supprimer {
-            color: #ffe0e0;
-            background: rgba(255,80,80,0.18);
-            border-color: rgba(255,130,130,0.42);
-        }
-        .btn-supprimer:hover { background: rgba(255,80,80,0.30); transform: translateY(-1px); }
-
-        /* Message action */
-        .msg-action {
-            text-align: center;
-            padding: 0.6rem 1rem;
-            border-radius: 12px;
-            margin-bottom: 1rem;
-            font-size: 0.88rem;
-            background: rgba(80,220,120,0.18);
-            border: 1px solid rgba(100,220,140,0.42);
-            color: #d0ffe0;
-        }
-
-        /* Modal étudiants inscrits */
-        .modal-overlay {
-            display: none;
-            position: fixed; inset: 0;
-            background: rgba(0,30,60,0.55);
-            backdrop-filter: blur(6px);
-            z-index: 500;
-            align-items: center;
-            justify-content: center;
-        }
-        .modal-overlay.open { display: flex; }
-
-        .modal {
-            width: 100%; max-width: 480px;
-            padding: 2rem 1.8rem;
-            border-radius: 24px;
-            position: relative;
-            background: rgba(10,60,130,0.70);
-            backdrop-filter: blur(28px) saturate(200%);
-            border: 1px solid rgba(255,255,255,0.36);
-            box-shadow: 0 20px 60px rgba(0,60,140,0.40), 0 1px 0 rgba(255,255,255,0.80) inset;
-        }
-
-        .modal h2 {
-            margin: 0 0 1rem;
-            font-size: 1.1rem;
-            font-weight: 800;
-            color: #fff;
-        }
-
-        .modal ul {
-            list-style: none;
-            padding: 0; margin: 0 0 1.2rem;
-            max-height: 260px;
-            overflow-y: auto;
-        }
-        .modal ul li {
-            padding: 0.5rem 0.7rem;
-            border-radius: 10px;
-            margin-bottom: 0.35rem;
-            font-size: 0.86rem;
-            color: rgba(255,255,255,0.90);
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(255,255,255,0.16);
-        }
-        .modal ul li span { color: rgba(200,230,255,0.75); font-size: 0.78rem; }
-
-        .modal-vide { font-size: 0.88rem; color: rgba(255,255,255,0.60); margin-bottom: 1rem; }
-
-        .btn-fermer {
-            padding: 0.45rem 1.2rem;
-            border-radius: 999px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            font-family: inherit;
-            cursor: pointer;
-            border: 1px solid rgba(255,255,255,0.42);
-            color: rgba(255,255,255,0.92);
-            background: rgba(255,255,255,0.14);
-            transition: background .15s;
-        }
-        .btn-fermer:hover { background: rgba(255,255,255,0.24); }
-
-        .titre-prof {
-            text-align: center;
-            color: rgba(255,255,255,0.75);
-            font-size: 0.88rem;
-            margin-bottom: 1.2rem;
-        }
-        .titre-prof strong { color: #fff; }
-    </style>
+    <link rel="stylesheet" href="../css/permanences_prof.css">
 </head>
 <body>
 
@@ -245,62 +122,72 @@ $offsetNext = $offset + 1;
             <a href="?offset=<?= $offsetNext ?>">Semaine suivante &#8250;</a>
         </div>
 
-        <!-- Grille -->
-        <div class="grille-semaine">
+        <!-- Grille agenda -->
+        <div class="agenda-grille">
+
+            <!-- Coin vide -->
+            <div class="ag-corner"></div>
+
+            <!-- En-têtes jours -->
             <?php foreach ($jours as $i => $jour): ?>
-                <?php
-                    $dateStr   = $jour->format('Y-m-d');
-                    $jourNum   = $jour->format('j');
-                    $moisNom   = $moisFr[(int)$jour->format('n')];
-                    $permsJour = $permParJour[$dateStr] ?? [];
-                    $idJour    = strtolower($nomJours[$i]);
-                ?>
-                <div class="jour" id="<?= $idJour ?>">
-                    <h3><?= $nomJours[$i] ?> <?= $jourNum ?> <?= $moisNom ?></h3>
-
-                    <?php if (empty($permsJour)): ?>
-                        <p class="aucune-perm" style="color:rgba(255,255,255,0.50);font-size:0.78rem;text-align:center;">
-                            Aucune permanence
-                        </p>
-                    <?php else: ?>
-                        <?php foreach ($permsJour as $perm): ?>
-                            <?php
-                                $heureRaw = substr($perm['heure_perm'], 0, 5);
-                                [$h, $m]  = explode(':', $heureRaw);
-                                $heureFin = sprintf('%02dh%02d', (int)$h + 1, (int)$m);
-                                $heureAff = str_replace(':', 'h', $heureRaw) . ' – ' . $heureFin;
-                                $nb       = (int)$perm['nb_inscrits'];
-                                $idPerm   = (int)$perm['id_perm'];
-                            ?>
-                            <div class="permanence" id="perm-<?= $idPerm ?>">
-                                <p class="heure"><?= $heureAff ?></p>
-                                <p class="matiere"><?= htmlspecialchars($perm['matiere_perm']) ?></p>
-                                <p class="salle">Salle <?= htmlspecialchars($perm['salle_perm'] ?? 'N/A') ?></p>
-
-                                <span class="badge-inscrits <?= $nb > 0 ? 'plein' : '' ?>">
-                                    👥 <?= $nb ?> étudiant<?= $nb > 1 ? 's' : '' ?> inscrit<?= $nb > 1 ? 's' : '' ?>
-                                </span>
-
-                                <!-- Bouton voir les inscrits -->
-                                <button class="btn-voir"
-                                        onclick="ouvrirModal(<?= $idPerm ?>, '<?= htmlspecialchars(addslashes($perm['matiere_perm'])) ?>', '<?= $heureAff ?>')">
-                                    Voir les inscrits
-                                </button>
-
-                                <!-- Bouton supprimer -->
-                                <form method="POST" style="display:inline;"
-                                      onsubmit="return confirm('Supprimer cette permanence ?');">
-                                    <input type="hidden" name="action"  value="supprimer">
-                                    <input type="hidden" name="id_perm" value="<?= $idPerm ?>">
-                                    <input type="hidden" name="offset"  value="<?= $offset ?>">
-                                    <button type="submit" class="btn-supprimer">Supprimer</button>
-                                </form>
-                            </div>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
+                <div class="ag-jour-header <?= $jour->format('Y-m-d') === $aujourdhuiStr ? 'ag-aujourd-hui' : '' ?>"
+                     style="grid-column:<?= $i + 2 ?>;grid-row:1;">
+                    <strong><?= $nomJours[$i] ?></strong>
+                    <span><?= $jour->format('j') ?> <?= $moisFr[(int)$jour->format('n')] ?></span>
                 </div>
             <?php endforeach; ?>
-        </div><!-- fin .grille-semaine -->
+
+            <!-- Labels heures + cellules de fond -->
+            <?php for ($h = $heureDebut; $h < $heureFin; $h++): ?>
+                <?php $row = ($h - $heureDebut) + 2; ?>
+                <div class="ag-heure-label" style="grid-column:1;grid-row:<?= $row ?>;"><?= $h ?>h</div>
+                <?php for ($col = 2; $col <= 6; $col++): ?>
+                    <div class="ag-slot" style="grid-column:<?= $col ?>;grid-row:<?= $row ?>;"></div>
+                <?php endfor; ?>
+            <?php endfor; ?>
+
+            <!-- Permanences positionnées -->
+            <?php foreach ($toutesLesPerms as $perm):
+                $heureH = (int)substr($perm['heure_perm'], 0, 2);
+                if ($heureH < $heureDebut || $heureH >= $heureFin) continue;
+                $colIdx = $dateColMap[$perm['date_perm']] ?? null;
+                if ($colIdx === null) continue;
+                $rowIdx  = ($heureH - $heureDebut) + 2;
+
+                $heureRaw = substr($perm['heure_perm'], 0, 5);
+                [$hh, $mm] = explode(':', $heureRaw);
+                $heureFinAff = sprintf('%02dh%02d', (int)$hh + 1, (int)$mm);
+                $heureAff    = str_replace(':', 'h', $heureRaw) . ' – ' . $heureFinAff;
+
+                $nb     = (int)$perm['nb_inscrits'];
+                $idPerm = (int)$perm['id_perm'];
+                $plein  = $nb >= 20;
+            ?>
+                <div class="permanence <?= $plein ? 'perm-complet' : '' ?>"
+                     id="perm-<?= $idPerm ?>"
+                     style="grid-column:<?= $colIdx ?>;grid-row:<?= $rowIdx ?>;">
+                    <p class="perm-matiere"><?= htmlspecialchars($perm['matiere_perm']) ?></p>
+                    <p class="perm-meta">Salle <?= htmlspecialchars($perm['salle_perm'] ?? 'N/A') ?> · <?= $nb ?>/20</p>
+                    <span class="badge-inscrits <?= $plein ? 'plein' : '' ?>">
+                        👥 <?= $nb ?> inscrit<?= $nb > 1 ? 's' : '' ?>
+                    </span>
+                    <div class="perm-actions">
+                        <button class="btn-voir"
+                                onclick="ouvrirModal(<?= $idPerm ?>, '<?= htmlspecialchars(addslashes($perm['matiere_perm'])) ?>', '<?= $heureAff ?>')">
+                            Inscrits
+                        </button>
+                        <form method="POST" style="display:inline;"
+                              onsubmit="return confirm('Supprimer cette permanence ?');">
+                            <input type="hidden" name="action"  value="supprimer">
+                            <input type="hidden" name="id_perm" value="<?= $idPerm ?>">
+                            <input type="hidden" name="offset"  value="<?= $offset ?>">
+                            <button type="submit" class="btn-supprimer">Suppr.</button>
+                        </form>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+
+        </div><!-- fin .agenda-grille -->
     </div><!-- fin .agenda -->
 
     <!-- ── Modal : liste des étudiants inscrits ── -->
@@ -340,40 +227,8 @@ $offsetNext = $offset + 1;
         }
         echo json_encode($inscritsMap);
     ?>;
-
-    function ouvrirModal(idPerm, matiere, heure) {
-        document.getElementById('modal-titre').textContent = matiere + ' · ' + heure;
-        const liste = document.getElementById('modal-liste');
-        const vide  = document.getElementById('modal-vide');
-        liste.innerHTML = '';
-        const etudiants = inscritsData[idPerm] || [];
-
-        if (etudiants.length === 0) {
-            liste.style.display = 'none';
-            vide.style.display  = 'block';
-        } else {
-            liste.style.display = 'block';
-            vide.style.display  = 'none';
-            etudiants.forEach(e => {
-                const li = document.createElement('li');
-                li.innerHTML = `<strong>${e.prenom} ${e.nom}</strong><br><span>${e.mail}</span>`;
-                liste.appendChild(li);
-            });
-        }
-        document.getElementById('modal-overlay').classList.add('open');
-    }
-
-    function fermerModal(event) {
-        if (event === null || event.target === document.getElementById('modal-overlay')) {
-            document.getElementById('modal-overlay').classList.remove('open');
-        }
-    }
-
-    // Fermer avec Échap
-    document.addEventListener('keydown', e => {
-        if (e.key === 'Escape') fermerModal(null);
-    });
     </script>
+    <script src="../js/permanences_prof.js"></script>
 
     <?php include 'footer.php'; ?>
 </body>

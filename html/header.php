@@ -17,12 +17,10 @@ $lienPerm = ($role === 'prof') ? 'permanences_prof.php' : 'permanences.php';
     <nav class="nav">
         <a href="accueil.php">Accueil</a>
 
-        <?php if ($role !== 'prof'): ?>
-            <a href="cours.php">Cours + formations</a>
-            <a href="enseignants.php">Enseignants</a>
-            <a href="quiz.php">Quiz formation</a>
-            <a href="plan.php">Plan interactif</a>
-        <?php endif; ?>
+        <a href="cours.php">Cours + formations</a>
+        <a href="enseignants.php">Enseignants</a>
+        <a href="quiz.php">Quiz formation</a>
+        <a href="plan.php">Plan interactif</a>
 
         <?php if ($role): ?>
             <a href="<?= $lienPerm ?>">Permanences</a>

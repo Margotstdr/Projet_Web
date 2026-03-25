@@ -1,5 +1,5 @@
 /* ============================================================
-   css/plan.css — LIQUID GLASS Frutiger Aero
+   css/plan.css — Campus EFREI Plan Interactif
    ============================================================ */
 
 * { box-sizing: border-box; }
@@ -10,18 +10,20 @@ body {
     color       : #082030;
     min-height  : 100vh;
     overflow-x  : hidden;
+    display     : flex;
+    flex-direction: column;
 
     background:
         radial-gradient(ellipse 400px 140px at 12% 10%, rgba(255,255,255,0.95), transparent 65%),
         radial-gradient(ellipse 280px 100px at 54%  7%, rgba(255,255,255,0.90), transparent 62%),
-        radial-gradient(ellipse 360px 120px at 82% 16%, rgba(255,255,255,0.82), transparent 65%),
         linear-gradient(180deg,
-            #a8e4fc  0%, #3fc8f8 14%, #0db5e8 28%,
+            #a8e4fc 0%, #3fc8f8 14%, #0db5e8 28%,
             #0197c8 42%, #0180b8 54%, #01a0c0 66%,
             #009eb0 78%, #007890 100%);
     background-attachment: fixed;
 }
 
+/* ── Bulle déco ── */
 body::before {
     content: ''; position: fixed;
     top: 8%; right: 4%;
@@ -35,179 +37,267 @@ body::before {
     border: 1.5px solid rgba(255,255,255,0.60);
     box-shadow: inset -5px -5px 17px rgba(70,188,230,0.26), inset 4px 4px 12px rgba(255,255,255,0.60), 0 9px 30px rgba(0,138,196,0.15);
 }
-
 @keyframes floatBig {
-    0%,100% { transform: translateY(0) scale(1);    opacity:.82; }
+    0%,100% { transform: translateY(0) scale(1);       opacity:.82; }
     33%     { transform: translateY(-18px) scale(1.02); opacity:.94; }
     66%     { transform: translateY(-8px)  scale(0.98); opacity:.86; }
 }
 
-/* ── Layout ── */
-.plan {
-    max-width: 1100px;
+/* ── Layout page ── */
+.plan-page {
+    flex: 1;
+    max-width: 1200px;
     margin   : 2rem auto 3rem;
-    padding  : 0 1.6rem;
+    padding  : 0 1.4rem;
     position : relative;
     z-index  : 1;
+    width    : 100%;
 }
 
-.plan > h1 {
-    margin-bottom: 1.8rem;
-    font-size    : clamp(1.8rem, 4vw, 2.6rem);
+h1 {
+    margin-bottom: 0.2rem;
+    font-size    : clamp(1.6rem, 3.5vw, 2.4rem);
     font-weight  : 900;
     text-align   : center;
-    letter-spacing: 3px;
-
+    letter-spacing: 2px;
     background: linear-gradient(155deg, #e0f6ff 0%, #7dd8f8 25%, #1ab4f0 50%, #0d7fc4 75%, #d0f0ff 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    filter: drop-shadow(0 3px 12px rgba(0,100,200,0.58)) drop-shadow(0 1px 2px rgba(255,255,255,0.62));
+    filter: drop-shadow(0 3px 12px rgba(0,100,200,0.55));
+}
+h1 span { font-style: italic; }
+
+.plan-sous-titre {
+    text-align: center;
+    color: rgba(255,255,255,0.70);
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    margin: 0 0 1.6rem;
 }
 
-/* ── Grille bâtiments ── */
-.plan {
-    display              : grid;
-    /* on garde le titre en pleine largeur */
+/* ══════════════════════════════════════════════════════════
+   CARTE CAMPUS
+   ══════════════════════════════════════════════════════════ */
+.carte-campus {
+    position    : relative;
+    width       : 100%;
+    aspect-ratio: 3 / 1;
+    max-width   : 1100px;
+    margin      : 0 auto 1.2rem;
+    /* fond style panneau campus */
+    background  : rgba(235,242,250,0.92);
+    border-radius: 16px;
+    border      : 1px solid rgba(255,255,255,0.70);
+    box-shadow  : 0 12px 40px rgba(0,60,120,0.22), 0 1px 0 rgba(255,255,255,0.90) inset;
+    overflow    : visible; /* permet aux tooltips de dépasser */
 }
 
-.plan > h1 {
-    grid-column: 1 / -1;
+/* ══════════════════════════════════════════════════════════
+   BÂTIMENTS — positions absolues en %
+   Grille approximative du plan réel EFREI
+   ══════════════════════════════════════════════════════════ */
+.bat {
+    position  : absolute;
+    display   : flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor    : pointer;
+    transition: filter .18s, transform .18s, box-shadow .18s;
+    user-select: none;
+    overflow  : hidden;
 }
 
-/* Wrap les bâtiments dans une grille */
-.plan {
-    display: block;
+.bat:hover, .bat:focus {
+    filter   : brightness(1.25) saturate(1.2);
+    transform: scale(1.04);
+    outline  : none;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+    z-index  : 10;
 }
 
-.plan > h1 + .batiment,
-.plan > .batiment {
-    /* Le plan ne contient que h1 + .batiment, on peut les wrapper via CSS grid en bloc */
-}
+/* Couleurs des bâtiments */
+.bat-a   { background: #3d4e68; }
+.bat-i   { background: #8bbdd6; }
+.bat-b   { background: #4a6898; }
+.bat-c   { background: #14152a; }
+.bat-e1  { background: #14152a; }
+.bat-e2  { background: #1a1b30; }
+.bat-d   { background: #6565b0; }
+.bat-e   { background: #3a5c88; }
+.bat-kfet{ background: #14152a; }
+.bat-f   { background: #7575be; }
+.bat-e3  { background: #14152a; }
+.bat-g   { background: #253545; }
+.bat-j   { background: #6e85a0; }
+.bat-sep { background: #98aabb; }
 
-/* Simulation de grille sans modifier le HTML : on cible les enfants .batiment */
-.plan {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 1.1rem;
-    align-items: start;
-}
+/* ── Positions (left / top / width / height en %) ── */
+.bat-a   { left: 0%;    top: 0%;   width: 9%;   height: 100%; border-radius: 12px 4px 4px 12px; }
+.bat-i   { left: 11%;   top: 0%;   width: 13%;  height: 38%;  border-radius: 10px; }
+.bat-b   { left: 11%;   top: 44%;  width: 16%;  height: 56%;  border-radius: 10px; }
+.bat-c   { left: 29%;   top: 0%;   width: 17%;  height: 100%; border-radius: 10px; }
+.bat-e1  { left: 48%;   top: 0%;   width: 6%;   height: 100%; border-radius: 999px; }
+.bat-e2  { left: 56%;   top: 0%;   width: 12%;  height: 41%;  border-radius: 10px; }
+.bat-d   { left: 56%;   top: 45%;  width: 12%;  height: 55%;  border-radius: 10px; }
+.bat-e   { left: 70%;   top: 0%;   width: 7%;   height: 56%;  border-radius: 10px; }
+.bat-kfet{ left: 70.5%; top: 60%;  width: 5.5%; height: 15%;  border-radius: 999px; }
+.bat-f   { left: 79%;   top: 0%;   width: 6%;   height: 55%;  border-radius: 10px; }
+.bat-e3  { left: 70%;   top: 78%;  width: 7%;   height: 22%;  border-radius: 999px; }
+.bat-g   { left: 79%;   top: 59%;  width: 5%;   height: 41%;  border-radius: 8px; }
+.bat-j   { left: 86%;   top: 0%;   width: 8%;   height: 100%; border-radius: 4px 12px 12px 4px; }
+.bat-sep { left: 86%;   top: 28%;  width: 5.5%; height: 44%;  border-radius: 10px; opacity: 0.75; }
 
-/* Le h1 prend toute la largeur */
-.plan > h1 {
-    grid-column: 1 / -1;
-    margin-bottom: 1rem;
-}
+/* SEP slightly overlaps J to show it's attached — shift it just past J */
+.bat-sep { left: 94.5%; }
 
-/* ── Bâtiment card — liquid glass ── */
-.batiment {
-    border-radius: 24px;
-    padding      : 1.4rem 1.6rem;
-    position     : relative;
-    overflow     : hidden;
-
-    background: rgba(255,255,255,0.06);
-    backdrop-filter: blur(20px) saturate(200%) brightness(1.12);
-    -webkit-backdrop-filter: blur(20px) saturate(200%) brightness(1.12);
-    border: 1px solid rgba(255,255,255,0.44);
-    box-shadow:
-        0 10px 34px rgba(0,100,160,0.16),
-        0 0 0 1px rgba(120,220,255,0.12),
-        -1px 0 0 1px rgba(200,100,255,0.06),
-         1px 0 0 1px rgba(100,255,220,0.05),
-        0 1px 0 rgba(255,255,255,0.88) inset,
-        0 -1px 0 rgba(100,220,255,0.18) inset;
-
-    transition: transform .20s ease, box-shadow .20s ease, background .20s ease;
-}
-
-/* Specular */
-.batiment::before {
-    content: '';
-    position: absolute;
-    inset: 0 0 62% 0;
-    border-radius: 24px 24px 0 0;
-    background: linear-gradient(180deg, rgba(255,255,255,0.58) 0%, rgba(255,255,255,0) 100%);
-    pointer-events: none;
-    z-index: 0;
-}
-
-/* Caustiques */
-.batiment::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 24px;
-    background:
-        radial-gradient(ellipse 55% 65% at 12% 55%, rgba(120,210,255,0.09) 0%, transparent 64%),
-        radial-gradient(ellipse 35% 68% at 90% 38%, rgba(195,105,255,0.07) 0%, transparent 60%),
-        radial-gradient(ellipse 30% 42% at 52% 100%, rgba(100,255,195,0.05) 0%, transparent 56%);
-    pointer-events: none;
-    z-index: 0;
-}
-
-.batiment:hover {
-    transform: translateY(-4px);
-    background: rgba(255,255,255,0.10);
-    box-shadow:
-        0 18px 48px rgba(0,100,160,0.22),
-        0 0 0 1px rgba(120,220,255,0.18),
-        0 1px 0 rgba(255,255,255,0.95) inset,
-        0 -1px 0 rgba(100,220,255,0.24) inset;
-    border-color: rgba(255,255,255,0.58);
-}
-
-/* Lettre du bâtiment — bulle cristal */
-.batiment .lettre {
-    display    : inline-block;
-    font-size  : 1.6rem;
+/* ── Textes dans les bâtiments ── */
+.bat-lettre {
+    font-size  : clamp(1rem, 2.5vw, 1.8rem);
     font-weight: 900;
+    color      : #fff;
     line-height: 1;
-    margin-bottom: 0.7rem;
-    position   : relative;
-    z-index    : 1;
-
-    background: linear-gradient(155deg, #e0f6ff 0%, #7dd8f8 22%, #1ab4f0 48%, #0d7fc4 72%, #d0f0ff 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    filter:
-        drop-shadow(0 3px 9px rgba(0,100,200,0.58))
-        drop-shadow(0 1px 2px rgba(255,255,255,0.62));
+    text-shadow: 0 2px 6px rgba(0,0,0,0.40);
+}
+.bat-lettre-sm {
+    font-size  : clamp(0.7rem, 1.8vw, 1.2rem);
+    font-weight: 900;
+    color      : #fff;
+    line-height: 1;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.40);
+}
+.bat-nom {
+    font-size  : clamp(0.45rem, 1.1vw, 0.72rem);
+    font-weight: 700;
+    color      : rgba(255,255,255,0.88);
+    text-align : center;
+    line-height: 1.25;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.50);
+}
+.bat-sub {
+    font-size  : clamp(0.35rem, 0.9vw, 0.60rem);
+    font-weight: 600;
+    color      : rgba(255,255,255,0.72);
+    text-align : center;
+    line-height: 1.3;
+}
+.bat-amphi {
+    font-size  : clamp(0.50rem, 1.3vw, 0.80rem);
+    font-weight: 800;
+    color      : rgba(255,255,255,0.60);
+    text-align : center;
+    margin-top : 0.3em;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.60);
+}
+.bat-vertical {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    font-size  : clamp(0.45rem, 1.1vw, 0.70rem);
+    font-weight: 700;
+    color      : rgba(255,255,255,0.80);
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.50);
 }
 
-/* Liste services */
-.batiment .services {
-    margin       : 0;
-    padding-left : 1.1rem;
-    list-style   : none;
+/* ── Légende ── */
+.legende-map {
+    position  : absolute;
+    bottom    : -7%;
+    left      : 0;
+    display   : flex;
+    gap       : 1.4rem;
+    font-size : 0.65rem;
+    color     : rgba(255,255,255,0.75);
+    pointer-events: none;
+}
+.leg-item { display: flex; align-items: center; gap: 5px; }
+.leg-cercle {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: #3d4e68;
+    border: 2px solid rgba(255,255,255,0.70);
+}
+.leg-entree {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid #3d4e68;
+}
+
+/* ══════════════════════════════════════════════════════════
+   PANNEAU D'INFORMATION
+   ══════════════════════════════════════════════════════════ */
+.info-panel {
+    max-width    : 1100px;
+    margin       : 2rem auto 0;
+    min-height   : 90px;
+    padding      : 1.1rem 1.6rem;
+    border-radius: 18px;
     position     : relative;
     z-index      : 1;
+
+    background: rgba(255,255,255,0.07);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255,255,255,0.32);
+    box-shadow: 0 8px 28px rgba(0,60,120,0.18), 0 1px 0 rgba(255,255,255,0.75) inset;
+    transition: background .2s;
+}
+.info-panel.active {
+    background: rgba(255,255,255,0.11);
 }
 
-.batiment .services li {
-    padding      : 0.22rem 0;
-    font-size    : 0.82rem;
-    line-height  : 1.45;
-    color        : rgba(255,255,255,0.90);
-    text-shadow  : 0 1px 3px rgba(0,50,90,0.28);
-    border-bottom: 1px solid rgba(255,255,255,0.12);
-    position     : relative;
+.info-defaut {
+    margin: 0;
+    color : rgba(255,255,255,0.55);
+    font-size: 0.88rem;
+    font-style: italic;
+    line-height: 90px; /* center vertically */
+    text-align: center;
 }
 
-.batiment .services li:last-child { border-bottom: none; }
+.info-header {
+    padding-left: 0.8rem;
+    margin-bottom: 0.6rem;
+}
+.info-titre {
+    font-size  : 1rem;
+    font-weight: 800;
+    color      : #fff;
+    text-shadow: 0 1px 6px rgba(0,40,100,0.40);
+}
 
-.batiment .services li::before {
-    content  : '◦';
-    position : absolute;
-    left     : -1rem;
-    color    : rgba(140,230,255,0.80);
+.info-liste {
+    margin     : 0;
+    padding    : 0;
+    list-style : none;
+    display    : flex;
+    flex-wrap  : wrap;
+    gap        : 0.3rem 1.4rem;
+}
+.info-liste li {
+    font-size  : 0.82rem;
+    color      : rgba(220,240,255,0.90);
+    position   : relative;
+    padding-left: 0.9rem;
+}
+.info-liste li::before {
+    content : '◦';
+    position: absolute;
+    left    : 0;
+    color   : rgba(140,220,255,0.70);
 }
 
 /* ── Responsive ── */
-@media (max-width: 700px) {
-    .plan { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+@media (max-width: 800px) {
+    .carte-campus {
+        aspect-ratio: 2 / 1;
+        overflow-x: auto;
+        min-width : 600px;
+    }
+    .vous-ici { display: none; }
 }
-@media (max-width: 480px) {
-    .plan { grid-template-columns: 1fr; }
+@media (max-width: 640px) {
+    .plan-page { padding: 0 0.8rem; }
 }

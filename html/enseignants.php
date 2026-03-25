@@ -1,30 +1,38 @@
-<div class="carousel-container">
-    <div class="carousel-track">
-        <section class="profile-card">
-            <img src="prof1.jpg" alt="Yulliwas Ameur">
-            <h3>Yulliwas Ameur</h3>
-            <p>Spécialité : Enseignant-chercheur sur l'axe de recherche Sécurité</p>
-        </section>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enseignants — Efrei</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/enseignants.css">
+</head>
+<body>
+    <?php include 'header.php'; ?>
 
-        <section class="profile-card">
-            <img src="prof2.jpg" alt="Cherifa Ben Khelil">
-            <h3>Cherifa Ben Khelil</h3>
-            <p>Spécialité : Enseignante-chercheuse en informatique</p>
-        </section>
+    <div class="bubble-extra-1"></div>
+    <div class="bubble-extra-2"></div>
 
-        <section class="profile-card">
-            <img src="prof3.jpg" alt="Asma Gabis">
-            <h3>Asma Gabis</h3>
-            <p>Spécialité : Enseignante chercheuse et responsable département</p>
-        </section>
+    <div class="page">
+        <h2 class="section-title">Enseignants du département Informatique</h2>
+        <p class="section-sub">Efrei · Ingénieurs Numérique · Paris Panthéon-Assas</p>
 
-        <section class="profile-card">
-            <img src="prof1.jpg" alt="Alan Turing">
-            <h3>Dr. Alan Turing</h3>
-            <p>Spécialité : Algorithmique</p>
-        </section>
+        <div class="carousel-wrap">
+            <div class="carousel-stage" id="stage">
+                </div>
+
+            <div class="nav-container">
+                <div class="carousel-nav">
+                    <button class="nav-btn" id="prev">&#8592;</button> <!-- flèche gauche -->
+                    <div class="counter"><em id="cur">1</em>/<span id="tot">1</span></div>
+                    <button class="nav-btn" id="next">&#8594;</button> <!-- flèche droite -->
+                </div>
+                <div class="carousel-dots" id="dots"></div>
+            </div>
+        </div>
     </div>
 
-    <button class="prev">Précédent</button>
-    <button class="next">Suivant</button>
-</div>
+    <script src="../js/enseignants.js"></script>
+</body>
+</html>
+<?php include 'footer.php'; ?>

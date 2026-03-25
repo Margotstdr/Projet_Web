@@ -102,7 +102,7 @@
         <h1>Permanences</h1>
 
         <div class="lien-mes-perms">
-            <a href="mes_permanences.php" class="btn-mes-perms">Mes inscriptions</a>
+            <a href="liste_perm_etudiant.php" class="btn-mes-perms">Mes inscriptions</a>
         </div>
 
         <!-- Navigation entre semaines -->

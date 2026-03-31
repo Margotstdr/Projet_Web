@@ -1,0 +1,77 @@
+/* ============================================================
+   css/background.css — Background commun à toutes les pages
+   Ciel Frutiger Aero / XP Bliss
+   ============================================================ */
+
+body {
+    background:
+        /* Nuages blancs doux */
+        radial-gradient(ellipse 420px 150px at 10%  8%, rgba(255,255,255,0.90), transparent 65%),
+        radial-gradient(ellipse 300px 110px at 55%  5%, rgba(255,255,255,0.85), transparent 62%),
+        radial-gradient(ellipse 370px 130px at 84% 14%, rgba(255,255,255,0.78), transparent 65%),
+        radial-gradient(ellipse 210px  85px at 33% 28%, rgba(255,255,255,0.60), transparent 58%),
+        radial-gradient(ellipse 170px  70px at 68% 24%, rgba(255,255,255,0.52), transparent 56%),
+        /* Ciel naturel Frutiger Aero / XP Bliss — doux, pas fluo */
+        linear-gradient(
+            180deg,
+            #d6eef9  0%,
+            #a8d8ef 12%,
+            #74b8e0 26%,
+            #4a98ce 40%,
+            #2e7fbf 54%,
+            #1f70b0 66%,
+            #1a7ea8 78%,
+            #126880 100%
+        );
+    background-attachment: fixed;
+}
+
+/* ══════════════════════════════════════════
+   BULLES DÉCORATIVES FIXES
+   ══════════════════════════════════════════ */
+
+.bg-bubbles {
+    position      : fixed;
+    inset         : 0;
+    pointer-events: none;
+    z-index       : 0;
+}
+
+/* Style commun à toutes les bulles */
+.bb {
+    position      : fixed;
+    border-radius : 50%;
+    pointer-events: none;
+
+    background:
+        radial-gradient(circle at 30% 25%, rgba(255,255,255,0.80) 0%, rgba(255,255,255,0.22) 20%, rgba(180,232,255,0.04) 50%, transparent 70%),
+        radial-gradient(circle at 66% 74%, rgba(140,220,255,0.18) 0%, transparent 44%),
+        rgba(200,230,255,0.08);
+    border: 1px solid rgba(255,255,255,0.42);
+    box-shadow:
+        inset -6px  -6px 18px rgba(0,160,220,0.16),
+        inset  4px   4px 12px rgba(255,255,255,0.45),
+        0 0 0 1px rgba(100,220,255,0.10),
+        0 10px 32px rgba(0,100,180,0.12);
+    backdrop-filter        : blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+}
+
+/* Positions et tailles individuelles */
+.bb-1  { width: 200px; height: 200px; top:  5%;    right:  3%;   }
+.bb-2  { width: 130px; height: 130px; top: 12%;    left:   4%;   }
+.bb-3  { width: 170px; height: 170px; bottom: 7%;  right:  5%;   }
+.bb-4  { width: 110px; height: 110px; bottom: 14%; left:   3%;   }
+.bb-5  { width:  85px; height:  85px; top: 42%;    left:   1%;   }
+.bb-6  { width: 105px; height: 105px; top: 33%;    right:  2%;   }
+.bb-7  { width:  70px; height:  70px; top: 68%;    right:  4%;   }
+.bb-8  { width: 145px; height: 145px; top: 72%;    left:   2%;   }
+.bb-9  { width:  55px; height:  55px; top: 22%;    left:  28%;   }
+.bb-10 { width:  65px; height:  65px; top: 18%;    right: 24%;   }
+.bb-11 { width:  50px; height:  50px; bottom: 28%; left:  18%;   }
+.bb-12 { width:  90px; height:  90px; top: 55%;    right: 18%;   }
+.bb-13 { width: 120px; height: 120px; top: 38%;    left:  42%;   }
+.bb-14 { width:  75px; height:  75px; top: 25%;    left:  52%;   }
+.bb-15 { width: 100px; height: 100px; top: 55%;    left:  35%;   }
+.bb-16 { width:  60px; height:  60px; top: 48%;    left:  62%;   }
+.bb-17 { width:  80px; height:  80px; top: 70%;    left:  48%;   }

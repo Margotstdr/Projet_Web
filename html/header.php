@@ -7,7 +7,28 @@ $nom  = $_SESSION['nom']  ?? null;
 // Lien permanences selon le rôle
 $lienPerm = ($role === 'prof') ? 'permanences_prof.php' : 'permanences.php';
 ?>
+<link rel="stylesheet" href="../css/background.css">
 <link rel="stylesheet" href="../css/header.css">
+
+<div class="bg-bubbles" aria-hidden="true">
+    <div class="bb bb-1"></div>
+    <div class="bb bb-2"></div>
+    <div class="bb bb-3"></div>
+    <div class="bb bb-4"></div>
+    <div class="bb bb-5"></div>
+    <div class="bb bb-6"></div>
+    <div class="bb bb-7"></div>
+    <div class="bb bb-8"></div>
+    <div class="bb bb-9"></div>
+    <div class="bb bb-10"></div>
+    <div class="bb bb-11"></div>
+    <div class="bb bb-12"></div>
+    <div class="bb bb-13"></div>
+    <div class="bb bb-14"></div>
+    <div class="bb bb-15"></div>
+    <div class="bb bb-16"></div>
+    <div class="bb bb-17"></div>
+</div>
 
 <header class="header">
     <div class="logo">

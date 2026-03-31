@@ -98,8 +98,6 @@ $aujourdhuiStr = (new DateTime())->format('Y-m-d');
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mes permanences — Enseignant</title>
-    <link rel="stylesheet" href="../css/header.css">
-    <link rel="stylesheet" href="../css/footer.css">
     <link rel="stylesheet" href="../css/permanences.css">
     <link rel="stylesheet" href="../css/permanences_prof.css">
 </head>

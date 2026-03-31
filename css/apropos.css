@@ -11,81 +11,8 @@ body {
     min-height  : 100vh;
     overflow-x  : hidden;
 
-    background:
-        radial-gradient(ellipse 400px 140px at 12% 10%, rgba(255,255,255,0.92), transparent 65%),
-        radial-gradient(ellipse 260px 100px at 54%  7%, rgba(255,255,255,0.85), transparent 62%),
-        radial-gradient(ellipse 340px 120px at 82% 16%, rgba(255,255,255,0.78), transparent 65%),
-        linear-gradient(
-            180deg,
-            #8ed8f8  0%,
-            #29b6f6 18%,
-            #0197c8 36%,
-            #017aad 52%,
-            #00acc1 66%,
-            #0097a7 82%,
-            #006978 100%
-        );
-    background-attachment: fixed;
 }
 
-/* Bulles flottantes */
-body::before {
-    content      : '';
-    position     : fixed;
-    top          : 10%;
-    right        : 4%;
-    width        : 140px;
-    height       : 140px;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index      : 0;
-    animation    : floatBig 10s ease-in-out infinite;
-    background:
-        radial-gradient(circle at 30% 28%, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.42) 16%, rgba(190,238,255,0.08) 48%, transparent 68%),
-        radial-gradient(circle at 65% 70%, rgba(190,238,255,0.28) 0%, transparent 40%);
-    border : 1.5px solid rgba(255,255,255,0.60);
-    box-shadow:
-        inset -5px -5px 16px rgba(80,200,235,0.28),
-        inset  4px  4px 10px rgba(255,255,255,0.60),
-        0 8px 30px rgba(0,150,210,0.16);
-}
-
-body::after {
-    content      : '';
-    position     : fixed;
-    top          : 55%;
-    left         : 2%;
-    width        : 70px;
-    height       : 70px;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index      : 0;
-    animation    : floatMed 13s ease-in-out infinite;
-    animation-delay: -5s;
-    background:
-        radial-gradient(circle at 30% 28%, rgba(255,255,255,0.88) 0%, rgba(255,255,255,0.36) 16%, transparent 65%),
-        radial-gradient(circle at 65% 70%, rgba(190,238,255,0.24) 0%, transparent 40%);
-    border : 1.5px solid rgba(255,255,255,0.54);
-    box-shadow:
-        inset -3px -3px 9px rgba(80,200,235,0.26),
-        inset  2px  2px 7px rgba(255,255,255,0.56),
-        0 5px 18px rgba(0,150,210,0.14);
-}
-
-@keyframes floatBig {
-    0%,100% { transform: translateY(0)     scale(1);    opacity: .80; }
-    33%     { transform: translateY(-18px) scale(1.02); opacity: .92; }
-    66%     { transform: translateY(-8px)  scale(0.98); opacity: .85; }
-}
-@keyframes floatMed {
-    0%,100% { transform: translateY(0)     scale(1);    opacity: .72; }
-    40%     { transform: translateY(-13px) scale(1.03); opacity: .88; }
-    70%     { transform: translateY(-5px)  scale(0.97); opacity: .78; }
-}
-@keyframes floatSm {
-    0%,100% { transform: translateY(0)     scale(1);    opacity: .68; }
-    50%     { transform: translateY(-10px) scale(1.04); opacity: .84; }
-}
 
 /* ── Conteneur ── */
 .apropos {

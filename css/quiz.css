@@ -13,55 +13,6 @@ body {
     display     : flex;
     flex-direction: column;
 
-    background:
-        radial-gradient(ellipse 400px 140px at 12% 10%, rgba(255,255,255,0.95), transparent 65%),
-        radial-gradient(ellipse 280px 100px at 54%  7%, rgba(255,255,255,0.90), transparent 62%),
-        radial-gradient(ellipse 360px 120px at 82% 16%, rgba(255,255,255,0.82), transparent 65%),
-        linear-gradient(180deg,
-            #a8e4fc  0%, #3fc8f8 14%, #0db5e8 28%,
-            #0197c8 42%, #0180b8 54%, #01a0c0 66%,
-            #009eb0 78%, #007890 100%);
-    background-attachment: fixed;
-}
-
-/* Bulle déco */
-body::before {
-    content: ''; position: fixed;
-    top: 8%; right: 3%;
-    width: 150px; height: 150px;
-    border-radius: 50%;
-    pointer-events: none; z-index: 0;
-    animation: floatBig 10s ease-in-out infinite;
-    background:
-        radial-gradient(circle at 30% 26%, rgba(255,255,255,0.94) 0%, rgba(255,255,255,0.44) 15%, transparent 65%),
-        radial-gradient(circle at 68% 72%, rgba(160,228,255,0.28) 0%, transparent 42%);
-    border: 1.5px solid rgba(255,255,255,0.62);
-    box-shadow: inset -5px -5px 17px rgba(70,188,230,0.26), inset 4px 4px 12px rgba(255,255,255,0.60), 0 10px 32px rgba(0,138,196,0.16);
-}
-
-body::after {
-    content: ''; position: fixed;
-    top: 52%; left: 2%;
-    width: 80px; height: 80px;
-    border-radius: 50%;
-    pointer-events: none; z-index: 0;
-    animation: floatMed 13s ease-in-out infinite; animation-delay: -5s;
-    background:
-        radial-gradient(circle at 30% 26%, rgba(255,255,255,0.90) 0%, rgba(255,255,255,0.38) 15%, transparent 65%),
-        radial-gradient(circle at 68% 72%, rgba(160,228,255,0.22) 0%, transparent 40%);
-    border: 1.5px solid rgba(255,255,255,0.56);
-    box-shadow: inset -3px -3px 10px rgba(70,188,230,0.22), inset 3px 3px 8px rgba(255,255,255,0.55), 0 6px 20px rgba(0,138,196,0.13);
-}
-
-@keyframes floatBig {
-    0%,100% { transform: translateY(0) scale(1);    opacity:.82; }
-    33%     { transform: translateY(-20px) scale(1.02); opacity:.94; }
-    66%     { transform: translateY(-9px)  scale(0.98); opacity:.86; }
-}
-@keyframes floatMed {
-    0%,100% { transform: translateY(0) scale(1);    opacity:.74; }
-    40%     { transform: translateY(-15px) scale(1.03); opacity:.90; }
-    70%     { transform: translateY(-7px)  scale(0.97); opacity:.80; }
 }
 
 /* ── Titres hors quiz ── */

@@ -15,11 +15,6 @@ body{
   margin:0;
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display","SF Pro Text", Arial, sans-serif;
   color: var(--text);
-  background:
-    radial-gradient(900px 520px at 15% 10%, rgba(31,122,255,0.22), transparent 60%),
-    radial-gradient(850px 520px at 85% 12%, rgba(37,214,199,0.18), transparent 62%),
-    radial-gradient(900px 650px at 50% 90%, rgba(0,183,255,0.14), transparent 60%),
-    linear-gradient(180deg, #f2fbff 0%, #f7fbff 60%, #f4fbff 100%);
 }
 
 .formations{

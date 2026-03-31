@@ -13,34 +13,6 @@ body {
     display     : flex;
     flex-direction: column;
 
-    background:
-        radial-gradient(ellipse 400px 140px at 12% 10%, rgba(255,255,255,0.95), transparent 65%),
-        radial-gradient(ellipse 280px 100px at 54%  7%, rgba(255,255,255,0.90), transparent 62%),
-        linear-gradient(180deg,
-            #a8e4fc 0%, #3fc8f8 14%, #0db5e8 28%,
-            #0197c8 42%, #0180b8 54%, #01a0c0 66%,
-            #009eb0 78%, #007890 100%);
-    background-attachment: fixed;
-}
-
-/* ── Bulle déco ── */
-body::before {
-    content: ''; position: fixed;
-    top: 8%; right: 4%;
-    width: 130px; height: 130px;
-    border-radius: 50%;
-    pointer-events: none; z-index: 0;
-    animation: floatBig 11s ease-in-out infinite;
-    background:
-        radial-gradient(circle at 30% 26%, rgba(255,255,255,0.94) 0%, rgba(255,255,255,0.44) 15%, transparent 66%),
-        radial-gradient(circle at 68% 72%, rgba(160,228,255,0.28) 0%, transparent 40%);
-    border: 1.5px solid rgba(255,255,255,0.60);
-    box-shadow: inset -5px -5px 17px rgba(70,188,230,0.26), inset 4px 4px 12px rgba(255,255,255,0.60), 0 9px 30px rgba(0,138,196,0.15);
-}
-@keyframes floatBig {
-    0%,100% { transform: translateY(0) scale(1);       opacity:.82; }
-    33%     { transform: translateY(-18px) scale(1.02); opacity:.94; }
-    66%     { transform: translateY(-8px)  scale(0.98); opacity:.86; }
 }
 
 /* ── Layout page ── */

@@ -6,13 +6,6 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background:
-        radial-gradient(ellipse 400px 140px at 12% 10%, rgba(255,255,255,0.95), transparent 65%),
-        linear-gradient(180deg,
-            #a8e4fc 0%, #3fc8f8 14%, #0db5e8 28%,
-            #0197c8 42%, #0180b8 54%, #01a0c0 66%,
-            #009eb0 78%, #007890 100%);
-    background-attachment: fixed;
 }
 
 .page-mes-perms {

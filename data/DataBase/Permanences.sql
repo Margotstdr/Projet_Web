@@ -12,7 +12,7 @@ INSERT INTO Permanence (matiere_perm, heure_perm, salle_perm, date_perm, id_ens_
 INSERT INTO Permanence (matiere_perm, heure_perm, salle_perm, date_perm, id_ens_responsable) VALUES
 ('Programmation C',             '09:00:00', 'H208', '2026-03-24', 4),  -- Conteville Laurie
 ('Développement web',           '11:00:00', 'H213', '2026-03-24', 5),  -- Gabis Asma
-('Systèmes d exploitation',     '15:00:00', 'A104', '2026-03-24', 6);  -- Guifo Fodjo Yvan
+("Systèmes d'exploitation",     '15:00:00', 'A104', '2026-03-24', 6);  -- Guifo Fodjo Yvan
 
 -- Mercredi 25 mars
 INSERT INTO Permanence (matiere_perm, heure_perm, salle_perm, date_perm, id_ens_responsable) VALUES
@@ -28,7 +28,7 @@ INSERT INTO Permanence (matiere_perm, heure_perm, salle_perm, date_perm, id_ens_
 
 -- Vendredi 27 mars
 INSERT INTO Permanence (matiere_perm, heure_perm, salle_perm, date_perm, id_ens_responsable) VALUES
-('Systèmes d exploitation',     '08:00:00', 'H306', '2026-03-27', 13), -- Chabchoub Kamel
+("Systèmes d'exploitation",     '08:00:00', 'H306', '2026-03-27', 13), -- Chabchoub Kamel
 ('Architecture des ordinateurs', '10:00:00', 'H208', '2026-03-27', 14), -- Soglo Yaovi
 ('Algorithmique',               '14:00:00', 'H213', '2026-03-27', 1);  -- Alhammada Elias
 
@@ -45,7 +45,7 @@ INSERT INTO Permanence (matiere_perm, heure_perm, salle_perm, date_perm, id_ens_
 -- Mardi 31 mars
 INSERT INTO Permanence (matiere_perm, heure_perm, salle_perm, date_perm, id_ens_responsable) VALUES
 ('Développement web',           '08:00:00', 'H208', '2026-03-31', 5),  -- Gabis Asma
-('Systèmes d exploitation',     '10:00:00', 'H213', '2026-03-31', 6),  -- Guifo Fodjo Yvan
+("Systèmes d'exploitation",     '10:00:00', 'H213', '2026-03-31', 6),  -- Guifo Fodjo Yvan
 ('Architecture des ordinateurs', '14:00:00', 'A104', '2026-03-31', 7); -- Hamidi Mohamed
 
 -- Mercredi 1er avril
@@ -58,7 +58,7 @@ INSERT INTO Permanence (matiere_perm, heure_perm, salle_perm, date_perm, id_ens_
 INSERT INTO Permanence (matiere_perm, heure_perm, salle_perm, date_perm, id_ens_responsable) VALUES
 ('Programmation C',             '08:00:00', 'H213', '2026-04-02', 11), -- Ta Michaël
 ('Développement web',           '10:00:00', 'A104', '2026-04-02', 12), -- Trebaul Lena
-('Systèmes d exploitation',     '14:00:00', 'H202', '2026-04-02', 13); -- Chabchoub Kamel
+("Systèmes d'exploitation",     '14:00:00', 'H202', '2026-04-02', 13); -- Chabchoub Kamel
 
 -- Vendredi 3 avril
 INSERT INTO Permanence (matiere_perm, heure_perm, salle_perm, date_perm, id_ens_responsable) VALUES

@@ -1,0 +1,135 @@
+/* ── Extras spécifiques à la vue prof ── */
+
+.titre-prof {
+    text-align: center;
+    color: rgba(255,255,255,0.75);
+    font-size: 0.88rem;
+    margin: 0 0 1rem;
+}
+.titre-prof strong { color: #fff; }
+
+.msg-action {
+    text-align: center;
+    padding: 0.6rem 1rem;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    font-size: 0.88rem;
+    background: rgba(80,220,120,0.18);
+    border: 1px solid rgba(100,220,140,0.42);
+    color: #d0ffe0;
+}
+
+/* Badge inscrits dans la grille */
+.badge-inscrits {
+    display: inline-block;
+    padding: 0.08rem 0.40rem;
+    border-radius: 999px;
+    font-size: 0.62rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.85);
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.28);
+    position: relative; z-index: 1;
+}
+.badge-inscrits.plein {
+    background: rgba(255,180,50,0.22);
+    border-color: rgba(255,200,80,0.45);
+    color: #fff8d0;
+}
+
+/* Actions dans la carte */
+.perm-actions {
+    display: flex;
+    gap: 0.25rem;
+    margin-top: 0.15rem;
+    position: relative; z-index: 1;
+    flex-wrap: wrap;
+}
+
+.btn-voir, .btn-supprimer {
+    padding: 0.10rem 0.45rem;
+    border-radius: 999px;
+    font-size: 0.60rem;
+    font-weight: 700;
+    cursor: pointer;
+    border: 1px solid rgba(255,255,255,0.38);
+    font-family: inherit;
+    transition: background .15s, transform .15s;
+    line-height: 1.6;
+}
+.btn-voir {
+    color: rgba(255,255,255,0.92);
+    background: rgba(255,255,255,0.14);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.60) inset;
+}
+.btn-voir:hover { background: rgba(255,255,255,0.24); transform: translateY(-1px); }
+
+.btn-supprimer {
+    color: #ffe0e0;
+    background: rgba(255,80,80,0.18);
+    border-color: rgba(255,130,130,0.42);
+}
+.btn-supprimer:hover { background: rgba(255,80,80,0.30); transform: translateY(-1px); }
+
+/* Modal étudiants inscrits */
+.modal-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,30,60,0.55);
+    backdrop-filter: blur(6px);
+    z-index: 500;
+    align-items: center;
+    justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+
+.modal {
+    width: 100%; max-width: 480px;
+    padding: 2rem 1.8rem;
+    border-radius: 24px;
+    position: relative;
+    background: rgba(10,60,130,0.70);
+    backdrop-filter: blur(28px) saturate(200%);
+    border: 1px solid rgba(255,255,255,0.36);
+    box-shadow: 0 20px 60px rgba(0,60,140,0.40), 0 1px 0 rgba(255,255,255,0.80) inset;
+}
+
+.modal h2 {
+    margin: 0 0 1rem;
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #fff;
+}
+
+.modal ul {
+    list-style: none;
+    padding: 0; margin: 0 0 1.2rem;
+    max-height: 260px;
+    overflow-y: auto;
+}
+.modal ul li {
+    padding: 0.5rem 0.7rem;
+    border-radius: 10px;
+    margin-bottom: 0.35rem;
+    font-size: 0.86rem;
+    color: rgba(255,255,255,0.90);
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.16);
+}
+.modal ul li span { color: rgba(200,230,255,0.75); font-size: 0.78rem; }
+
+.modal-vide { font-size: 0.88rem; color: rgba(255,255,255,0.60); margin-bottom: 1rem; }
+
+.btn-fermer {
+    padding: 0.45rem 1.2rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    border: 1px solid rgba(255,255,255,0.42);
+    color: rgba(255,255,255,0.92);
+    background: rgba(255,255,255,0.14);
+    transition: background .15s;
+}
+.btn-fermer:hover { background: rgba(255,255,255,0.24); }

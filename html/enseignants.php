@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enseignants — Efrei</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/enseignants.css">
+    <link rel="stylesheet" href="../css/enseignants.css?=v1.1">
 </head>
 <body>
     <?php include 'header.php'; ?>
@@ -32,7 +32,7 @@
         </div>
     </div>
 
-    <script src="../js/enseignants.js"></script>
+    <script src="../js/enseignants.js?=v1.1"></script>
 </body>
 </html>
 <?php include 'footer.php'; ?>

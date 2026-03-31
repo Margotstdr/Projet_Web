@@ -19,8 +19,17 @@ document.addEventListener("DOMContentLoaded", function () {
       el.style.display = "none";
     });
 
-    var majeuresMenu = document.getElementById("majeuresMenu");
-    if (majeuresMenu) majeuresMenu.style.display = "none";
+    document.querySelectorAll(".majeure-group, .bachelor-group").forEach(function (el) {
+      el.style.display = "none";
+    });
+
+    document.querySelectorAll(".majeures-main-link, .bachelors-main-link").forEach(function (el) {
+      el.classList.remove("is-active");
+    });
+
+    document.querySelectorAll(".majeure-presentation-card, .bachelor-presentation-card").forEach(function (el) {
+      el.style.display = "none";
+    });
   }
 
   cards.forEach(function (card) {
@@ -56,8 +65,17 @@ function openDetails(key) {
     el.style.display = "none";
   });
 
-  var majeuresMenu = document.getElementById("majeuresMenu");
-  if (majeuresMenu) majeuresMenu.style.display = "none";
+  document.querySelectorAll(".majeure-group, .bachelor-group").forEach(function (el) {
+    el.style.display = "none";
+  });
+
+  document.querySelectorAll(".majeures-main-link, .bachelors-main-link").forEach(function (el) {
+    el.classList.remove("is-active");
+  });
+
+  document.querySelectorAll(".majeure-presentation-card, .bachelor-presentation-card").forEach(function (el) {
+    el.style.display = "none";
+  });
 
   var target = document.getElementById("details-" + key);
   if (target) target.style.display = "block";
@@ -68,11 +86,30 @@ function openDetails(key) {
     prepas: "Prépas Intégrées",
     ingenieur: "Cycle Ingénieur",
     majeures: "Majeures de spécialisation",
+    bts: "BTS",
     bachelors: "Bachelors / Licences",
     masteres: "Mastères"
   };
 
   title.textContent = map[key] || "Détails";
+
+  if (key === "bachelors") {
+    setTimeout(function () {
+      showBachelorGroup("licences");
+    }, 0);
+  }
+
+  if (key === "bts") {
+    setTimeout(function () {
+      showBtsGroup("sio");
+    }, 0);
+  }
+
+  if (key === "masteres") {
+    setTimeout(function () {
+      showMastereGroup("main");
+    }, 0);
+  }
 
   area.scrollIntoView({ behavior: "smooth", block: "start" });
 }
@@ -85,16 +122,17 @@ function closeDetails() {
     el.style.display = "none";
   });
 
-  var majeuresMenu = document.getElementById("majeuresMenu");
-  if (majeuresMenu) majeuresMenu.style.display = "none";
-}
+  document.querySelectorAll(".majeure-group, .bachelor-group").forEach(function (el) {
+    el.style.display = "none";
+  });
 
-function toggleMajeuresMenu() {
-  var menu = document.getElementById("majeuresMenu");
-  if (!menu) return;
+  document.querySelectorAll(".majeures-main-link, .bachelors-main-link").forEach(function (el) {
+    el.classList.remove("is-active");
+  });
 
-  var isOpen = menu.style.display === "block";
-  menu.style.display = isOpen ? "none" : "block";
+  document.querySelectorAll(".majeure-presentation-card, .bachelor-presentation-card").forEach(function (el) {
+    el.style.display = "none";
+  });
 }
 
 document.addEventListener("click", function (e) {
@@ -133,6 +171,10 @@ function showMajeureGroup(groupKey) {
     el.classList.remove("is-active");
   });
 
+  document.querySelectorAll(".majeure-presentation-card").forEach(function (el) {
+    el.style.display = "none";
+  });
+
   var target = document.getElementById("majeure-group-" + groupKey);
   if (target) {
     target.style.display = "grid";
@@ -144,13 +186,28 @@ function showMajeureGroup(groupKey) {
   }
 }
 
-function showBachelorGroup(groupKey) {
-  document.querySelectorAll(".bachelor-group").forEach(function (el) {
+function showMajeurePresentation(key) {
+  document.querySelectorAll(".majeure-presentation-card").forEach(function (el) {
     el.style.display = "none";
   });
 
-  document.querySelectorAll(".bachelors-main-link").forEach(function (el) {
+  var target = document.getElementById("presentation-" + key);
+  if (target) {
+    target.style.display = "block";
+  }
+}
+
+function showBachelorGroup(groupKey) {
+  document.querySelectorAll("#details-bachelors .bachelor-group").forEach(function (el) {
+    el.style.display = "none";
+  });
+
+  document.querySelectorAll("#details-bachelors .bachelors-main-link").forEach(function (el) {
     el.classList.remove("is-active");
+  });
+
+  document.querySelectorAll("#details-bachelors .bachelor-presentation-card").forEach(function (el) {
+    el.style.display = "none";
   });
 
   var target = document.getElementById("bachelor-group-" + groupKey);
@@ -158,8 +215,78 @@ function showBachelorGroup(groupKey) {
     target.style.display = "grid";
   }
 
-  var clicked = document.querySelector('.bachelors-main-link[onclick*="' + groupKey + '"]');
+  var clicked = document.querySelector('#details-bachelors .bachelors-main-link[onclick*="' + groupKey + '"]');
   if (clicked) {
     clicked.classList.add("is-active");
+  }
+}
+
+function showBachelorPresentation(key) {
+  document.querySelectorAll("#details-bachelors .bachelor-presentation-card").forEach(function (el) {
+    el.style.display = "none";
+  });
+
+  var target = document.getElementById("bachelor-presentation-" + key);
+  if (target) {
+    target.style.display = "block";
+  }
+}
+
+function showBtsGroup(groupKey) {
+  document.querySelectorAll("#details-bts .bachelor-group").forEach(function (el) {
+    el.style.display = "none";
+  });
+
+  document.querySelectorAll("#details-bts .bachelors-main-link").forEach(function (el) {
+    el.classList.remove("is-active");
+  });
+
+  document.querySelectorAll("#details-bts .bachelor-presentation-card").forEach(function (el) {
+    el.style.display = "none";
+  });
+
+  var target = document.getElementById("bts-group-" + groupKey);
+  if (target) {
+    target.style.display = "grid";
+  }
+
+  var clicked = document.querySelector('#details-bts .bachelors-main-link[onclick*="' + groupKey + '"]');
+  if (clicked) {
+    clicked.classList.add("is-active");
+  }
+}
+
+function showMastereGroup(groupKey) {
+  document.querySelectorAll("#details-masteres .bachelor-group").forEach(function (el) {
+    el.style.display = "none";
+  });
+
+  document.querySelectorAll("#details-masteres .bachelors-main-link").forEach(function (el) {
+    el.classList.remove("is-active");
+  });
+
+  document.querySelectorAll("#details-masteres .bachelor-presentation-card").forEach(function (el) {
+    el.style.display = "none";
+  });
+
+  var target = document.getElementById("mastere-group-" + groupKey);
+  if (target) {
+    target.style.display = "grid";
+  }
+
+  var clicked = document.querySelector('#details-masteres .bachelors-main-link[onclick*="' + groupKey + '"]');
+  if (clicked) {
+    clicked.classList.add("is-active");
+  }
+}
+
+function showMasterePresentation(key) {
+  document.querySelectorAll("#details-masteres .bachelor-presentation-card").forEach(function (el) {
+    el.style.display = "none";
+  });
+
+  var target = document.getElementById("mastere-presentation-" + key);
+  if (target) {
+    target.style.display = "block";
   }
 }

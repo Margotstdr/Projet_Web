@@ -94,6 +94,8 @@ $heureDebut    = 8;
 $heureFin      = 19;
 $aujourdhuiStr = (new DateTime())->format('Y-m-d');
 ?>
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>

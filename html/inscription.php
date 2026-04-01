@@ -83,6 +83,8 @@ $heureRaw  = substr($perm['heure_perm'], 0, 5);   // "09:00:00" → "09:00"
 $heureFin  = sprintf('%02dh%02d', (int)$h + 1, (int)$m);
 $heureAff  = str_replace(':', 'h', $heureRaw) . ' – ' . $heureFin;  // ex: "09h00 – 10h00"
 ?>
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>

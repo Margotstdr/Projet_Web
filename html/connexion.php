@@ -54,6 +54,8 @@ if (isset($_SESSION['role'])) {
     exit();
 }
 ?>
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -78,7 +80,7 @@ if (isset($_SESSION['role'])) {
             <form method="POST" action="connexion.php">
                 <div class="groupe">
                     <label for="login">Identifiant</label>
-                    <!-- htmlspecialchars() pour re-remplir le champ sans risque XSS
+                    <!-- htmlspecialchars() pour re-remplir le champ sans risque 
                          (si quelqu'un entre <script> dans le login, ça s'affiche en texte) -->
                     <input type="text" id="login" name="login"
                            value="<?= htmlspecialchars($_POST['login'] ?? '') ?>"

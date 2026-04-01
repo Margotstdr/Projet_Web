@@ -94,6 +94,8 @@
     $heureFin      = 19;   // créneaux de 8h à 18h inclus
     $aujourdhuiStr = (new DateTime())->format('Y-m-d');
 ?>
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>

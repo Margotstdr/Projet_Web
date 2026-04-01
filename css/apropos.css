@@ -104,6 +104,124 @@ body {
 }
 .projet-description p:last-child { margin-bottom: 0; }
 
+/* ── GitHub ── */
+.projet-github {
+    position        : relative;
+    display         : flex;
+    align-items     : center;
+    gap             : 1.4rem;
+    padding         : 1.6rem 2rem;
+    border-radius   : 28px;
+    margin-bottom   : 1.6rem;
+    overflow        : hidden;
+
+    background              : rgba(255,255,255,0.08);
+    backdrop-filter         : blur(56px) saturate(140%) brightness(1.02);
+    -webkit-backdrop-filter : blur(56px) saturate(140%) brightness(1.02);
+    border                  : 1px solid rgba(255,255,255,0.38);
+    box-shadow:
+        0 14px 44px rgba(0,100,160,0.20),
+        0  1px  0   rgba(255,255,255,0.85) inset,
+        0 -1px  0   rgba(100,220,255,0.16) inset;
+}
+
+.projet-github::before {
+    content       : '';
+    position      : absolute;
+    inset         : 0 0 56% 0;
+    border-radius : 28px 28px 0 0;
+    background    : linear-gradient(180deg, rgba(255,255,255,0.52) 0%, rgba(255,255,255,0.03) 100%);
+    pointer-events: none;
+    z-index       : 0;
+}
+
+.projet-github::after {
+    content      : '';
+    position     : absolute;
+    inset        : 0;
+    border-radius: 28px;
+    background   :
+        radial-gradient(ellipse 45% 65% at 12% 50%, rgba(100,220,255,0.08) 0%, transparent 62%),
+        radial-gradient(ellipse 30% 70% at 90% 35%, rgba(180,100,255,0.06) 0%, transparent 58%);
+    pointer-events: none;
+    z-index      : 0;
+}
+
+.projet-github__icon {
+    width      : 42px;
+    height     : 42px;
+    flex-shrink: 0;
+    fill       : rgba(255,255,255,0.88);
+    filter     : drop-shadow(0 2px 6px rgba(0,60,120,0.40));
+    position   : relative;
+    z-index    : 1;
+}
+
+.projet-github__text {
+    flex    : 1;
+    position: relative;
+    z-index : 1;
+}
+
+.projet-github__text h2 {
+    margin-bottom: 0.3rem;
+    font-size    : 1.1rem;
+    font-weight  : 800;
+
+    background             : linear-gradient(155deg, #b8d8ee 0%, #5aaad4 35%, #2a88b8 65%, #1a6a9a 100%);
+    -webkit-background-clip: text;
+    background-clip        : text;
+    color                  : transparent;
+    filter                 : drop-shadow(0 1px 3px rgba(0,60,120,0.25));
+}
+
+.projet-github__text p {
+    margin     : 0;
+    font-size  : 0.88rem;
+    color      : rgba(255,255,255,0.80);
+    text-shadow: 0 1px 4px rgba(0,60,100,0.30);
+}
+
+.projet-github__btn {
+    display         : flex;
+    align-items     : center;
+    gap             : .4rem;
+    padding         : .65rem 1.3rem;
+    border-radius   : 50px;
+    text-decoration : none;
+    font-size       : 0.88rem;
+    font-weight     : 700;
+    color           : #082030;
+    white-space     : nowrap;
+    flex-shrink     : 0;
+    position        : relative;
+    z-index         : 1;
+
+    background  : rgba(255,255,255,0.72);
+    border      : 1.5px solid rgba(255,255,255,0.90);
+    box-shadow  : 0 4px 16px rgba(0,80,140,0.18), 0 1px 0 rgba(255,255,255,0.95) inset;
+    transition  : transform .2s ease, box-shadow .2s ease, background .2s ease;
+}
+
+.projet-github__btn:hover {
+    background : rgba(255,255,255,0.90);
+    transform  : translateY(-2px);
+    box-shadow : 0 8px 24px rgba(0,80,140,0.26), 0 1px 0 rgba(255,255,255,0.95) inset;
+}
+
+.projet-github__arrow {
+    font-size  : 1.2rem;
+    font-weight: 700;
+    line-height: 1;
+    transition : transform .2s ease;
+}
+.projet-github__btn:hover .projet-github__arrow { transform: translateX(3px); }
+
+@media (max-width: 600px) {
+    .projet-github { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    .projet-github__btn { align-self: stretch; justify-content: center; }
+}
+
 /* ── Cards membres ── */
 .membre {
     position     : relative;

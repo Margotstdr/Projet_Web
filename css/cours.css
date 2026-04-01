@@ -632,10 +632,201 @@ body {
 /* ══════════════════════════════════════════
    RESPONSIVE
    ══════════════════════════════════════════ */
+/* ══════════════════════════════════════════
+   MAJEURES — layout deux colonnes
+   ══════════════════════════════════════════ */
+.majeures-layout,
+.bachelors-layout {
+    display              : grid;
+    grid-template-columns: 210px 1fr;
+    gap                  : 1.2rem;
+    align-items          : start;
+}
+
+.majeures-left,
+.bachelors-left {
+    display        : flex;
+    flex-direction : column;
+    gap            : .5rem;
+}
+
+.majeures-right,
+.bachelors-right {
+    display        : flex;
+    flex-direction : column;
+    gap            : .7rem;
+}
+
+/* ── Liens de filière (colonne gauche) ── */
+.majeures-main-link,
+.bachelors-main-link {
+    display         : flex;
+    flex-direction  : column;
+    gap             : .15rem;
+    padding         : .75rem 1.1rem;
+    border-radius   : 16px;
+    text-decoration : none;
+    color           : #082030;
+    font-size       : 0.85rem;
+    font-weight     : 700;
+    position        : relative;
+    overflow        : hidden;
+
+    background              : rgba(255,255,255,0.26);
+    backdrop-filter         : blur(14px) saturate(115%);
+    -webkit-backdrop-filter : blur(14px) saturate(115%);
+    border                  : 1.5px solid rgba(255,255,255,0.62);
+    box-shadow:
+        0 6px 22px rgba(0,80,140,0.12),
+        0  1px 0   rgba(255,255,255,0.90) inset,
+        0 -1px 0   rgba(160,210,255,0.22) inset;
+
+    transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+}
+
+.majeures-main-link::before,
+.bachelors-main-link::before {
+    content       : '';
+    position      : absolute;
+    top: 0; left: 0; right: 0;
+    height        : 50%;
+    background    : linear-gradient(180deg, rgba(255,255,255,0.32) 0%, transparent 100%);
+    border-radius : 16px 16px 0 0;
+    pointer-events: none;
+}
+
+.majeures-main-link span,
+.bachelors-main-link span {
+    font-size   : 0.72rem;
+    font-weight : 600;
+    color       : rgba(8,32,48,0.50);
+}
+
+.majeures-main-link:hover,
+.bachelors-main-link:hover {
+    transform  : translateX(5px);
+    background : rgba(255,255,255,0.38);
+    box-shadow :
+        0 10px 30px rgba(0,80,140,0.18),
+        0  1px 0   rgba(255,255,255,0.95) inset;
+}
+
+.majeures-main-link.is-active,
+.bachelors-main-link.is-active {
+    background   : rgba(255,255,255,0.44);
+    border-color : rgba(74,152,206,0.45);
+    color        : #1a5a8a;
+    box-shadow:
+        0 8px 28px rgba(0,80,140,0.16),
+        0  0  0  2px rgba(74,152,206,0.25),
+        0  1px 0  rgba(255,255,255,0.95) inset;
+}
+
+/* ── Sous-boutons de filière (colonne droite) ── */
+.majeure-group,
+.bachelor-group {
+    display        : flex;
+    flex-direction : column;
+    gap            : .45rem;
+    animation      : accIn .22s ease both;
+}
+
+.majeure-subitem,
+.bachelor-subitem {
+    display         : block;
+    width           : 100%;
+    padding         : .6rem 1rem;
+    border-radius   : 12px;
+    cursor          : pointer;
+    text-align      : left;
+    font-size       : 0.82rem;
+    font-weight     : 700;
+    color           : #082030;
+
+    background  : rgba(255,255,255,0.35);
+    border      : 1px solid rgba(255,255,255,0.65);
+    box-shadow  : 0 2px 8px rgba(0,80,140,0.08), 0 1px 0 rgba(255,255,255,0.85) inset;
+    transition  : background .18s, transform .18s, box-shadow .18s;
+}
+
+.majeure-subitem:hover,
+.bachelor-subitem:hover {
+    background : rgba(255,255,255,0.52);
+    transform  : translateX(4px);
+    box-shadow : 0 4px 14px rgba(0,80,140,0.13), 0 1px 0 rgba(255,255,255,0.90) inset;
+}
+
+.majeure-subitem.is-active,
+.bachelor-subitem.is-active {
+    background   : rgba(255,255,255,0.50);
+    border-color : rgba(74,152,206,0.40);
+    color        : #1a5a8a;
+    box-shadow:
+        0 4px 14px rgba(0,80,140,0.14),
+        0  0  0  2px rgba(74,152,206,0.22),
+        0  1px 0  rgba(255,255,255,0.95) inset;
+}
+
+/* ── Zone de présentation ── */
+.majeure-presentation-area,
+.bachelor-presentation-area {
+    display        : flex;
+    flex-direction : column;
+    gap            : .7rem;
+}
+
+.majeure-presentation-card,
+.bachelor-presentation-card {
+    border-radius : 18px;
+    padding       : 1.2rem 1.4rem;
+    position      : relative;
+    overflow      : hidden;
+    animation     : detailsIn .3s ease both;
+
+    background    : rgba(255,255,255,0.22);
+    border        : 1.5px solid rgba(255,255,255,0.58);
+    box-shadow    : 0 6px 20px rgba(0,80,140,0.10), 0 1px 0 rgba(255,255,255,0.90) inset;
+}
+
+.majeure-presentation-card::before,
+.bachelor-presentation-card::before {
+    content       : '';
+    position      : absolute;
+    top: 0; left: 0; right: 0;
+    height        : 50%;
+    background    : linear-gradient(180deg, rgba(255,255,255,0.28) 0%, transparent 100%);
+    border-radius : 18px 18px 0 0;
+    pointer-events: none;
+}
+
+.majeure-presentation-card h4,
+.bachelor-presentation-card h4 {
+    font-size   : 0.9rem;
+    font-weight : 800;
+    color       : #1a5a8a;
+    margin      : 0 0 .7rem;
+    position    : relative; z-index: 1;
+}
+
+.majeure-presentation-card p,
+.bachelor-presentation-card p {
+    font-size   : 0.82rem;
+    color       : rgba(8,32,48,0.72);
+    line-height : 1.6;
+    margin      : 0;
+    position    : relative; z-index: 1;
+    font-weight : 500;
+}
+
+/* ══════════════════════════════════════════
+   RESPONSIVE
+   ══════════════════════════════════════════ */
 @media (max-width: 900px) {
     .formations__grid,
     .prepasIntroGrid,
-    .prepasGrid {
+    .prepasGrid,
+    .majeures-layout,
+    .bachelors-layout {
         grid-template-columns: 1fr;
     }
 }

@@ -91,7 +91,7 @@
 
       <div class="prepasIntroGrid">
         <div class="prepasIntroCard">
-          <h4>✨ Présentation</h4>
+          <h4>Présentation</h4>
           <p>
             Ce cycle en deux ans prépare nos étudiants en combinant formation scientifique
             et technique avec une formation générale et professionnelle de l'ingénieur.
@@ -104,7 +104,7 @@
         </div>
 
         <div class="prepasIntroCard">
-          <h4>✨ Prérequis</h4>
+          <h4>Prérequis</h4>
           <ul>
             <li>Bac général avec spécialité Mathématiques + 1 spécialité scientifique</li>
             <li>(PHYSIQUE-CHIMIE / NSI / SVT / SI)</li>
@@ -204,7 +204,7 @@
 
       <div class="ingenieurIntroGrid">
         <div class="ingenieurIntroCard">
-          <h4>✨ Présentation</h4>
+          <h4>Présentation</h4>
           <p>
             Cette année de tronc commun se compose d’un semestre à l’international dans le cadre
             de la mobilité étudiante et d’un semestre de cours à Paris. À son issue, les élèves peuvent
@@ -391,7 +391,7 @@
             Bachelors / Licences <span>[B1, B2 & B3]</span>
           </a>
 
-          <a href="#" class="bachelors-main-link" onclick="showBachelorGroup('masteres'); return false;">
+          <a href="#" class="bachelors-main-link" onclick="openDetails('masteres'); return false;">
             Mastères <span>[M1 & M2]</span>
           </a>
         </div>

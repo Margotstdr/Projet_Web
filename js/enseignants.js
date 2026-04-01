@@ -110,7 +110,7 @@ const profs = [
         titleShort: "Enseignant chercheur de l'axe de recherche Systèmes, Logiciels & Réseaux",
         axe: "Systèmes, Logiciels & Réseaux",
         mail : "kais.klai@efrei.net",
-        photo : "../data/img/kais.png",
+        photo : "../data/img/kais.jpg",
         tags: ["Systèmes", "Réseaux"],
         parcours: [
             { label: "Thèse", text: "<strong>Dr. en Informatique</strong> — Université de Lyon" },
@@ -170,7 +170,7 @@ const profs = [
         titleShort: "Enseignante chercheuse de l'axe de recherche Systèmes, Logiciels & Réseaux",
         axe: "Systèmes, Logiciels & Réseaux",
         mail : "lena.trebaul@efrei.net",
-        photo : "../data/img/lena.png",
+        photo : "../data/img/lena.jpg",
         tags: ["Systèmes", "Réseaux"],
         parcours: [
             { label: "Thèse", text: "<strong>Dr. en Informatique</strong> — Université de Lyon" },
@@ -185,7 +185,7 @@ const profs = [
         titleShort: "Enseignant chercheur de l'axe de recherche Systèmes, Logiciels & Réseaux",
         axe: "Systèmes, Logiciels & Réseaux",
         mail : "kamel.chabchoub@efrei.net",
-        photo : "../data/img/kamel.png",
+        photo : "../data/img/chabchoub.jpg",
         tags: ["Systèmes", "Réseaux"],
         parcours: [
             { label: "Thèse", text: "<strong>Dr. en Informatique</strong> — Université de Lyon" },
@@ -200,7 +200,7 @@ const profs = [
         titleShort: "Enseignant chercheur de l'axe de recherche Systèmes, Logiciels & Réseaux",
         axe: "Systèmes, Logiciels & Réseaux",
         mail : "yaovi.soglo@efrei.net",
-        photo : "../data/img/soglo.png",
+        photo : "../data/img/soglo.jpg",
         tags: ["Systèmes", "Réseaux"],
         parcours: [
             { label: "Thèse", text: "<strong>Dr. en Informatique</strong> — Université de Lyon" },
@@ -294,6 +294,7 @@ function buildCards() {
                 <div class="card-face card-back">
                     <div class="card-back-name">${p.name}</div>
                     <p style="font-size:0.7rem">${p.role}</p>
+                    <div class="font-size:0.8rem;margin:10px 0;color:#555">${p.mail}</div>
                     <div class="card-back-tags">
                         ${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}
                     </div>

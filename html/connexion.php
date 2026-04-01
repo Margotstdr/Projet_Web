@@ -6,16 +6,22 @@ $erreur = '';
 
 // ─── Traitement du formulaire ───────────────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // trim() supprime les espaces avant/après le login (utile quand on copie-colle)
     $login = trim($_POST['login'] ?? '');
     $mdp   = $_POST['mdp'] ?? '';
 
     if ($login && $mdp) {
+        // Étudiants et enseignants sont dans deux tables séparées,
+        // donc je dois tester les deux. J'essaie les étudiants en premier.
+
         // 1. Chercher dans les étudiants
         $stmt = $pdo->prepare("SELECT * FROM Etudiant WHERE login_etu = ?");
         $stmt->execute([$login]);
         $etu = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($etu && $mdp === $etu['mdp_etu']) {
+            // Mot de passe comparé en clair (pas de hachage dans ce projet scolaire)
+            // En production il faudrait utiliser password_hash() / password_verify()
             $_SESSION['user_id'] = $etu['id_etu'];
             $_SESSION['role']    = 'etudiant';
             $_SESSION['nom']     = $etu['prenom_etu'] . ' ' . $etu['nom_etu'];
@@ -42,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Déjà connecté → accueil
+// Si déjà connecté, inutile d'afficher la page de login → on redirige directement
 if (isset($_SESSION['role'])) {
     header('Location: accueil.php');
     exit();
@@ -72,6 +78,8 @@ if (isset($_SESSION['role'])) {
             <form method="POST" action="connexion.php">
                 <div class="groupe">
                     <label for="login">Identifiant</label>
+                    <!-- htmlspecialchars() pour re-remplir le champ sans risque XSS
+                         (si quelqu'un entre <script> dans le login, ça s'affiche en texte) -->
                     <input type="text" id="login" name="login"
                            value="<?= htmlspecialchars($_POST['login'] ?? '') ?>"
                            placeholder="Votre login" required autofocus>

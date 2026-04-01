@@ -1,15 +1,27 @@
 <?php
+// Ce fichier est inclus en haut de chaque page via include 'header.php'
+// Il gère la navigation et les bulles de fond animées.
+
+// session_status() === PHP_SESSION_NONE : je vérifie avant de démarrer
+// pour éviter l'erreur "session already started" si une autre page l'a déjà lancée
 if (session_status() === PHP_SESSION_NONE) session_start();
 
-$role = $_SESSION['role'] ?? null;
+$role = $_SESSION['role'] ?? null;  // 'etudiant', 'prof', ou null si non connecté
 $nom  = $_SESSION['nom']  ?? null;
 
-// Lien permanences selon le rôle
+// Le lien "Permanences" dans la nav pointe vers une page différente selon le rôle :
+// - étudiant → agenda pour s'inscrire
+// - prof → agenda pour gérer ses propres permanences
 $lienPerm = ($role === 'prof') ? 'permanences_prof.php' : 'permanences.php';
 ?>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../css/background.css">
 <link rel="stylesheet" href="../css/header.css">
 
+<!-- Bulles animées en arrière-plan — purement décoratif (aria-hidden pour les lecteurs d'écran) -->
+<!-- L'animation est définie dans background.css, chaque bb-N a une taille et vitesse différente -->
 <div class="bg-bubbles" aria-hidden="true">
     <div class="bb bb-1"></div>
     <div class="bb bb-2"></div>
@@ -50,10 +62,12 @@ $lienPerm = ($role === 'prof') ? 'permanences_prof.php' : 'permanences.php';
         <?php endif; ?>
 
         <?php if ($role): ?>
+            <!-- Connecté : bouton rouge avec le prénom + "Déconnexion" -->
             <a href="deconnexion.php" style="background:rgba(255,80,80,0.22); border-color:rgba(255,150,150,0.50);">
                 <?= htmlspecialchars($nom) ?> · Déconnexion
             </a>
         <?php else: ?>
+            <!-- Non connecté : bouton blanc neutre -->
             <a href="connexion.php" style="background:rgba(255,255,255,0.30); border-color:rgba(255,255,255,0.70);">
                 Connexion
             </a>

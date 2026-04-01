@@ -9,13 +9,17 @@
     }
 
     // ─── Calcul de la semaine à afficher ───────────────────────────────────────
+    // $offset vient de l'URL (?offset=-1 = semaine précédente, +1 = suivante, 0 = actuelle)
+    // Passer par l'URL plutôt que la session permet de partager/bookmarker un lien
     $offset = isset($_GET['offset']) ? (int)$_GET['offset'] : 0;
 
     $aujourdhui  = new DateTime();
+    // format('N') = numéro ISO du jour : 1=lundi ... 7=dimanche
+    // Je soustrait (N-1) jours pour toujours atterrir sur le lundi de la semaine courante
     $jourSemaine = (int)$aujourdhui->format('N');
     $lundi       = clone $aujourdhui;
     $lundi->modify('-' . ($jourSemaine - 1) . ' days');
-    $lundi->modify($offset . ' weeks');
+    $lundi->modify($offset . ' weeks');   // décalage de ±N semaines selon la navigation
     $vendredi = clone $lundi;
     $vendredi->modify('+4 days');
 
@@ -31,6 +35,8 @@
     $dateDebut = $lundi->format('Y-m-d');
     $dateFin   = $vendredi->format('Y-m-d');
 
+    // LEFT JOIN Inscrit + COUNT : je récupère le nombre d'inscrits directement dans la
+    // même requête plutôt que de faire une requête séparée pour chaque permanence (évite le N+1)
     $stmt = $pdo->prepare("
         SELECT p.id_perm, p.matiere_perm, p.heure_perm, p.salle_perm, p.date_perm,
             e.nom_ens, e.prenom_ens,
@@ -50,9 +56,14 @@
     $id_etu       = (int)$_SESSION['user_id'];
     $stmtInsc     = $pdo->prepare("SELECT id_perm FROM Inscrit WHERE id_etu = ?");
     $stmtInsc->execute([$id_etu]);
+    // array_column transforme [['id_perm'=>3], ['id_perm'=>7], ...] en [3, 7, ...]
+    // → plus simple pour faire in_array($idPerm, $inscritPerms) plus tard
     $inscritPerms = array_column($stmtInsc->fetchAll(PDO::FETCH_ASSOC), 'id_perm');
 
     // ─── Map date → colonne CSS Grid (col 2 à 6) ───────────────────────────────
+    // La grille CSS a 6 colonnes : col 1 = labels des heures, col 2 = lundi ... col 6 = vendredi
+    // Ce tableau me permet de retrouver rapidement dans quelle colonne placer une permanence
+    // en cherchant sa date : $dateColMap['2026-03-23'] → 2 (lundi)
     $dateColMap = [];
     foreach ($jours as $i => $jour) {
         $dateColMap[$jour->format('Y-m-d')] = $i + 2;
@@ -134,23 +145,30 @@
                 <?php endfor; ?>
             <?php endfor; ?>
 
-            <!-- Permanences positionnées -->
+            <!-- Permanences positionnées dans la grille via grid-column et grid-row -->
             <?php foreach ($toutesLesPerms as $perm):
-                $heureH = (int)substr($perm['heure_perm'], 0, 2);
+                $heureH = (int)substr($perm['heure_perm'], 0, 2);  // ex: "09:00:00" → 9
+                // On ignore les créneaux hors de la plage 8h-18h affichée
                 if ($heureH < $heureDebut || $heureH >= $heureFin) continue;
                 $colIdx = $dateColMap[$perm['date_perm']] ?? null;
-                if ($colIdx === null) continue;
+                if ($colIdx === null) continue;  // permanence hors de la semaine affichée (ne devrait pas arriver)
+
+                // row 1 = en-têtes des jours, row 2 = 8h, row 3 = 9h, etc.
                 $rowIdx  = ($heureH - $heureDebut) + 2;
 
                 $nb      = (int)$perm['nb_inscrits'];
                 $complet = $nb >= 20;
                 $idPerm  = (int)$perm['id_perm'];
-                $dejains = in_array($idPerm, $inscritPerms);
+                $dejains = in_array($idPerm, $inscritPerms);  // est-ce que l'étudiant est déjà inscrit ?
                 $matiere = htmlspecialchars($perm['matiere_perm']);
                 $prof    = htmlspecialchars($perm['prenom_ens'] . ' ' . $perm['nom_ens']);
                 $salle   = htmlspecialchars($perm['salle_perm'] ?? 'N/A');
                 $restant = 20 - $nb;
 
+                // 3 états visuels possibles :
+                // perm-inscrit  → l'étudiant est déjà inscrit (affiché en vert/bleu)
+                // perm-complet  → 20/20 inscrits, plus de place
+                // (rien)        → disponible, bouton "S'inscrire" affiché
                 $classe = 'permanence';
                 if ($dejains) $classe .= ' perm-inscrit';
                 elseif ($complet) $classe .= ' perm-complet';

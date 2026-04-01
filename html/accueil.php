@@ -75,6 +75,9 @@
             <section class="meteo">
                 <h2>Météo du jour</h2>
                 <?php
+                    // Appel à l'API OpenWeatherMap pour la météo de Villejuif (campus EFREI)
+                    // file_get_contents() fait une requête HTTP synchrone — simple mais bloquant
+                    // (pour un projet scolaire c'est suffisant, en prod on utiliserait cURL/Guzzle)
                     $api_key = '1ec1dfa0a9c942fd7238ca4b48e4494b';
                     $ville   = 'Villejuif';
                     $url     = "https://api.openweathermap.org/data/2.5/weather?q={$ville}&appid={$api_key}&units=metric&lang=fr";
@@ -84,9 +87,10 @@
                         $data        = json_decode($response);
                         $temp        = round($data->main->temp);
                         $ressenti    = round($data->main->feels_like);
-                        $description = ucfirst($data->weather[0]->description);
-                        $icone       = $data->weather[0]->icon;
+                        $description = ucfirst($data->weather[0]->description);  // majuscule en début
+                        $icone       = $data->weather[0]->icon;                  // code ex: "03d" → nuageux jour
                         $humidite    = $data->main->humidity;
+                        // L'API renvoie le vent en m/s, je convertis en km/h (* 3.6)
                         $vent        = round($data->wind->speed * 3.6);
                         echo "
                         <div class='meteo-info'>
@@ -106,11 +110,16 @@
             <section class="calendrier">
                 <h2>Calendrier</h2>
                 <?php
-                    $aujourd_hui  = (int) date('j');
-                    $mois_actuel  = (int) date('n');
+                    $aujourd_hui  = (int) date('j');           // jour du mois actuel (ex: 15)
+                    $mois_actuel  = (int) date('n');           // numéro du mois sans zéro (ex: 3)
                     $annee        = (int) date('Y');
                     $nb_jours     = cal_days_in_month(CAL_GREGORIAN, $mois_actuel, $annee);
+
+                    // date('N', mktime(...)) : 'N' donne le numéro ISO du jour (1=lundi, 7=dimanche)
+                    // mktime(0,0,0, mois, 1, année) = timestamp du 1er du mois
+                    // → $premier_jour = quel jour de la semaine tombe le 1er du mois
                     $premier_jour = date('N', mktime(0, 0, 0, $mois_actuel, 1, $annee));
+
                     $mois_fr      = ['','Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
                     $mois_nom     = $mois_fr[$mois_actuel] . ' ' . $annee;
                     $jours        = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
@@ -121,14 +130,19 @@
                     foreach ($jours as $j) echo "<th>{$j}</th>";
                     echo "</tr></thead><tbody><tr>";
 
+                    // Cellules vides pour décaler jusqu'au bon jour de la semaine
+                    // ex: si le 1er est un mercredi (N=3), on ajoute 2 cellules vides
                     for ($i = 1; $i < $premier_jour; $i++) echo "<td></td>";
+
                     $col = $premier_jour;
                     for ($jour = 1; $jour <= $nb_jours; $jour++) {
                         $classe = ($jour === $aujourd_hui) ? " class='aujourd-hui'" : "";
                         echo "<td{$classe}>{$jour}</td>";
+                        // Nouvelle ligne chaque dimanche (col % 7 === 0), sauf au dernier jour
                         if ($col % 7 === 0 && $jour < $nb_jours) echo "</tr><tr>";
                         $col++;
                     }
+                    // Cellules vides pour compléter la dernière ligne jusqu'au dimanche
                     while ($col % 7 !== 1) { echo "<td></td>"; $col++; }
                     echo "</tr></tbody></table>";
                 ?>

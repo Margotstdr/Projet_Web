@@ -13,6 +13,8 @@ $message = '';
 $succes  = false;
 
 // ─── Traitement : désinscription ─────────────────────────────────────────────
+// Je vérifie à la fois l'action ET l'id_perm pour éviter les suppressions accidentelles
+// Le WHERE id_etu = ? garantit qu'un étudiant ne peut se désinscrire que de ses propres perms
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'desinscrire') {
     $id_perm = (int)($_POST['id_perm'] ?? 0);
     if ($id_perm) {
@@ -24,6 +26,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 }
 
 // ─── Récupération des permanences de l'étudiant ──────────────────────────────
+// Double jointure sur Inscrit : "i" filtre les perms auxquelles cet étudiant est inscrit,
+// "i2" compte TOUS les inscrits de chaque perm (pas seulement celui connecté).
+// LEFT JOIN Enseignants : si un enseignant a été supprimé, la perm s'affiche quand même (sans nom)
 $stmt = $pdo->prepare("
     SELECT p.id_perm, p.matiere_perm, p.heure_perm, p.salle_perm, p.date_perm,
            e.nom_ens, e.prenom_ens,
@@ -88,6 +93,8 @@ $moisFr = [
                                 <p class="carte-detail"><span>Salle</span><?= htmlspecialchars($perm['salle_perm'] ?? 'N/A') ?></p>
                                 <p class="carte-detail"><span>Inscrits</span><?= $nb ?>/20</p>
                             </div>
+                            <!-- onsubmit="return confirm(...)" : boîte de dialogue de confirmation
+                                 avant d'envoyer le formulaire — évite la désinscription accidentelle -->
                             <form method="POST" class="form-desinscrire"
                                   onsubmit="return confirm('Se désinscrire de cette permanence ?');">
                                 <input type="hidden" name="action"  value="desinscrire">

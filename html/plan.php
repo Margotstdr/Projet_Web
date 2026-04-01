@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plan interactif — Campus EFREI</title>
+    <title>Plan — Campus EFREI</title>
     <link rel="stylesheet" href="../css/plan.css">
 </head>
 <body>
@@ -15,199 +15,223 @@
         <h1>Campus <span>EFREI</span></h1>
         <p class="plan-sous-titre">Paris Panthéon-Assas Université</p>
 
-        <!-- ── Carte ── -->
-        <div class="carte-campus">
+        <div class="batiments-grid">
 
-            <!-- Bâtiment A -->
-            <div class="bat bat-a" data-bat="a" tabindex="0">
-                <span class="bat-lettre">A</span>
-                <span class="bat-sub">Amphi A</span>
-                <span class="bat-sub">Accueil</span>
-                <span class="bat-sub">Crous<br>Sous-Sol</span>
+            <div class="bat-card" style="--accent:#3f4f6a">
+                <div class="bat-card-header">
+                    <span class="bat-badge">A</span>
+                    <strong>Bâtiment A</strong>
+                </div>
+                <ul>
+                    <li>Accueil</li>
+                    <li>Amphi A001</li>
+                    <li>Direction des études : Cycle M · Apprentissage PGE · Programmes Experts</li>
+                    <li>Laboratoire de recherche</li>
+                    <li>Innovation pédagogique</li>
+                    <li>Pôle réussite étudiante</li>
+                    <li>Accréditations · DSI · Relations internationales</li>
+                    <li>Juridique</li>
+                    <li>Crous (sous-sol)</li>
+                </ul>
             </div>
 
-            <!-- Innovation'Lab (I) -->
-            <div class="bat bat-i" data-bat="i" tabindex="0">
-                <span class="bat-lettre-sm">I</span>
-                <span class="bat-nom">Innovation'Lab</span>
+            <div class="bat-card" style="--accent:#4a6898">
+                <div class="bat-card-header">
+                    <span class="bat-badge">B</span>
+                    <strong>Bâtiment B</strong>
+                </div>
+                <ul>
+                    <li>Direction des études cycle I</li>
+                    <li>Département scientifique</li>
+                </ul>
             </div>
 
-            <!-- Bâtiment B -->
-            <div class="bat bat-b" data-bat="b" tabindex="0">
-                <span class="bat-lettre">B</span>
+            <div class="bat-card" style="--accent:#1a1a2e">
+                <div class="bat-card-header">
+                    <span class="bat-badge">C</span>
+                    <strong>Bâtiment C</strong>
+                </div>
+                <ul>
+                    <li>Amphi C001</li>
+                    <li>Direction générale</li>
+                    <li>Finance</li>
+                    <li>Informatique</li>
+                    <li>Relations entreprises</li>
+                    <li>Ressources humaines</li>
+                </ul>
             </div>
 
-            <!-- Bâtiment C -->
-            <div class="bat bat-c" data-bat="c" tabindex="0">
-                <span class="bat-lettre-sm">C</span>
-                <span class="bat-amphi">Amphi C</span>
+            <div class="bat-card" style="--accent:#6868b0">
+                <div class="bat-card-header">
+                    <span class="bat-badge">D</span>
+                    <strong>Bâtiment D</strong>
+                </div>
+                <ul>
+                    <li>Promotion &amp; admissions</li>
+                    <li>Vie associative</li>
+                    <li>Relations entreprises</li>
+                </ul>
             </div>
 
-            <!-- Amphi E1 -->
-            <div class="bat bat-e1" data-bat="e1" tabindex="0">
-                <span class="bat-vertical">Amphi E1</span>
+            <div class="bat-card" style="--accent:#3a5c88">
+                <div class="bat-card-header">
+                    <span class="bat-badge">E</span>
+                    <strong>Bâtiment E</strong>
+                </div>
+                <ul>
+                    <li>Amphis E001, E002, E003</li>
+                    <li>Support informatique</li>
+                    <li>Reprographie</li>
+                    <li>Services généraux et campus</li>
+                    <li>Planification &amp; examens</li>
+                    <li>Student services (scolarité)</li>
+                    <li>K'Fet</li>
+                </ul>
             </div>
 
-            <!-- Amphi E2 -->
-            <div class="bat bat-e2" data-bat="e2" tabindex="0">
-                <span class="bat-nom">Amphi E2</span>
+            <div class="bat-card" style="--accent:#7878c0">
+                <div class="bat-card-header">
+                    <span class="bat-badge">F</span>
+                    <strong>Student Hub — Bâtiment F</strong>
+                </div>
+                <ul>
+                    <li>Pôle étudiants</li>
+                    <li>Espaces de Coworking</li>
+                </ul>
             </div>
 
-            <!-- Bâtiment D -->
-            <div class="bat bat-d" data-bat="d" tabindex="0">
-                <span class="bat-lettre">D</span>
+            <div class="bat-card" style="--accent:#263545">
+                <div class="bat-card-header">
+                    <span class="bat-badge">G</span>
+                    <strong>BDE — Bâtiment G</strong>
+                </div>
+                <ul>
+                    <li>Bureau Des Étudiants</li>
+                </ul>
             </div>
 
-            <!-- Bâtiment E -->
-            <div class="bat bat-e" data-bat="e" tabindex="0">
-                <span class="bat-lettre">E</span>
+            <div class="bat-card" style="--accent:#7aaecc">
+                <div class="bat-card-header">
+                    <span class="bat-badge">I</span>
+                    <strong>Innovation'Lab — Bâtiment I</strong>
+                </div>
+                <ul>
+                    <li>Laboratoire d'innovation pédagogique</li>
+                </ul>
             </div>
 
-            <!-- K'Fet -->
-            <div class="bat bat-kfet" data-bat="kfet" tabindex="0">
-                <span class="bat-nom">K'Fet</span>
+            <div class="bat-card" style="--accent:#7088a8">
+                <div class="bat-card-header">
+                    <span class="bat-badge">J</span>
+                    <strong>EFREI Entrepreneurs — Bâtiment J</strong>
+                </div>
+                <ul>
+                    <li>Incubateur de startups</li>
+                    <li>EFREI Entrepreneurs</li>
+                </ul>
             </div>
 
-            <!-- Student Hub (F) -->
-            <div class="bat bat-f" data-bat="f" tabindex="0">
-                <span class="bat-lettre">F</span>
-                <span class="bat-nom">Student Hub</span>
+            <div class="bat-card" style="--accent:#1a1a2e">
+                <div class="bat-card-header">
+                    <span class="bat-badge-sm">E1</span>
+                    <strong>Amphi E1</strong>
+                </div>
+                <ul>
+                    <li>Amphithéâtre E001</li>
+                </ul>
             </div>
 
-            <!-- Amphi E3 -->
-            <div class="bat bat-e3" data-bat="e3" tabindex="0">
-                <span class="bat-vertical">Amphi E3</span>
+            <div class="bat-card" style="--accent:#1a1a2e">
+                <div class="bat-card-header">
+                    <span class="bat-badge-sm">E2</span>
+                    <strong>Amphi E2</strong>
+                </div>
+                <ul>
+                    <li>Amphithéâtre E002</li>
+                </ul>
             </div>
 
-            <!-- BDE (G) -->
-            <div class="bat bat-g" data-bat="g" tabindex="0">
-                <span class="bat-lettre-sm">G</span>
-                <span class="bat-nom">BDE</span>
+            <div class="bat-card" style="--accent:#1a1a2e">
+                <div class="bat-card-header">
+                    <span class="bat-badge-sm">E3</span>
+                    <strong>Amphi E3</strong>
+                </div>
+                <ul>
+                    <li>Amphithéâtre E003</li>
+                </ul>
             </div>
 
-            <!-- EFREI Entrepreneurs (J) -->
-            <div class="bat bat-j" data-bat="j" tabindex="0">
-                <span class="bat-lettre-sm">J</span>
-                <span class="bat-nom">EFREI<br>Entrepreneurs</span>
+            <div class="bat-card" style="--accent:#1a1a2e">
+                <div class="bat-card-header">
+                    <span class="bat-badge-sm">K</span>
+                    <strong>K'Fet</strong>
+                </div>
+                <ul>
+                    <li>Cafétéria du campus</li>
+                </ul>
             </div>
 
-            <!-- SEP -->
-            <div class="bat bat-sep" data-bat="sep" tabindex="0">
-                <span class="bat-nom">SEP</span>
+            <div class="bat-card" style="--accent:#98aabb">
+                <div class="bat-card-header">
+                    <span class="bat-badge-sm">SEP</span>
+                    <strong>SEP EFREI</strong>
+                </div>
+                <ul>
+                    <li>SEP EFREI</li>
+                </ul>
             </div>
 
-            <!-- Légende -->
-            <div class="legende-map">
-                <span class="leg-item"><span class="leg-cercle"></span> Nom du bâtiment</span>
-                <span class="leg-item"><span class="leg-entree"></span> Entrée du bâtiment</span>
+            <div class="bat-card" style="--accent:#5a7a9a">
+                <div class="bat-card-header">
+                    <span class="bat-badge-sm">M</span>
+                    <strong>La Maison</strong>
+                </div>
+                <ul>
+                    <li>Site historique de l'Efrei</li>
+                    <li>Cours</li>
+                    <li>Administratif</li>
+                    <li>Innovation</li>
+                    <li>Associations</li>
+                </ul>
             </div>
 
-        </div><!-- fin .carte-campus -->
+            <div class="bat-card" style="--accent:#2a7a8a">
+                <div class="bat-card-header">
+                    <span class="bat-badge-sm">Aq</span>
+                    <strong>L'Aquarium</strong>
+                </div>
+                <ul>
+                    <li>Langues</li>
+                    <li>Sciences Humaines</li>
+                </ul>
+            </div>
 
-        <!-- ── Panneau de description ── -->
-        <div class="info-panel" id="info-panel">
-            <p class="info-defaut">Survolez un bâtiment pour voir son descriptif</p>
+            <div class="bat-card" style="--accent:#7a5a3a">
+                <div class="bat-card-header">
+                    <span class="bat-badge-sm">Fc</span>
+                    <strong>La Factory</strong>
+                </div>
+                <ul>
+                    <li>Cours</li>
+                    <li>Travaux collectifs</li>
+                </ul>
+            </div>
+
+            <div class="bat-card bat-card-soon" style="--accent:#6a4a9a">
+                <div class="bat-card-header">
+                    <span class="bat-badge-sm">NR</span>
+                    <strong>New Republic</strong>
+                </div>
+                <ul>
+                    <li>Ouverture janvier 2026</li>
+                </ul>
+            </div>
+
         </div>
 
-    </div><!-- fin .plan-page -->
+    </div>
 
     <?php include 'footer.php'; ?>
-
-    <script>
-    const infos = {
-        a: {
-            titre: 'Bâtiment A',
-            couleur: '#3f4f6a',
-            items: [
-                'Accueil',
-                'Amphi A001',
-                'Direction des études : Cycle M · Apprentissage PGE · Programmes Experts',
-                'Laboratoire de recherche',
-                'Innovation pédagogique',
-                'Pôle réussite étudiante',
-                'Accréditations · DSI · Relations internationales',
-                'Juridique',
-                'Crous (sous-sol)'
-            ]
-        },
-        b: {
-            titre: 'Bâtiment B',
-            couleur: '#4a6898',
-            items: ['Direction des études cycle I', 'Département scientifique']
-        },
-        c: {
-            titre: 'Bâtiment C',
-            couleur: '#1a1a2e',
-            items: ['Amphi C001', 'Direction générale', 'Finance', 'Informatique', 'Relations entreprises', 'Ressources humaines']
-        },
-        d: {
-            titre: 'Bâtiment D',
-            couleur: '#6868b0',
-            items: ['Promotion & admissions', 'Vie associative', 'Relations entreprises']
-        },
-        e: {
-            titre: 'Bâtiment E',
-            couleur: '#3a5c88',
-            items: ['Amphis E001, E002, E003', 'Support informatique', 'Reprographie', 'Services généraux et campus', 'Planification & examens', 'Student services (scolarité)', 'K\'Fet']
-        },
-        e1: { titre: 'Amphi E1', couleur: '#1a1a2e', items: ['Amphithéâtre E001'] },
-        e2: { titre: 'Amphi E2', couleur: '#1a1a2e', items: ['Amphithéâtre E002'] },
-        e3: { titre: 'Amphi E3', couleur: '#1a1a2e', items: ['Amphithéâtre E003'] },
-        f: {
-            titre: 'Student Hub — Bâtiment F',
-            couleur: '#7878c0',
-            items: ['Pôle étudiants', 'Espaces de Coworking']
-        },
-        g: {
-            titre: 'BDE — Bâtiment G',
-            couleur: '#263545',
-            items: ['Bureau Des Étudiants']
-        },
-        i: {
-            titre: 'Innovation\'Lab — Bâtiment I',
-            couleur: '#7aaecc',
-            items: ['Laboratoire d\'innovation pédagogique']
-        },
-        j: {
-            titre: 'EFREI Entrepreneurs — Bâtiment J',
-            couleur: '#7088a8',
-            items: ['Incubateur de startups', 'EFREI Entrepreneurs']
-        },
-        kfet: {
-            titre: 'K\'Fet',
-            couleur: '#1a1a2e',
-            items: ['Cafétéria du campus']
-        },
-        sep: {
-            titre: 'SEP EFREI',
-            couleur: '#98aabb',
-            items: ['SEPEFREI']
-        }
-    };
-
-    const panel = document.getElementById('info-panel');
-
-    document.querySelectorAll('.bat').forEach(bat => {
-        bat.addEventListener('mouseenter', () => {
-            const key = bat.dataset.bat;
-            const info = infos[key];
-            if (!info) return;
-            const items = info.items.map(i => `<li>${i}</li>`).join('');
-            panel.innerHTML = `
-                <div class="info-header" style="border-left:4px solid ${info.couleur}">
-                    <strong class="info-titre">${info.titre}</strong>
-                </div>
-                <ul class="info-liste">${items}</ul>`;
-            panel.classList.add('active');
-        });
-        bat.addEventListener('mouseleave', () => {
-            panel.innerHTML = '<p class="info-defaut">Survolez un bâtiment pour voir son descriptif</p>';
-            panel.classList.remove('active');
-        });
-        bat.addEventListener('focus', () => bat.dispatchEvent(new Event('mouseenter')));
-        bat.addEventListener('blur',  () => bat.dispatchEvent(new Event('mouseleave')));
-    });
-    </script>
 
 </body>
 </html>

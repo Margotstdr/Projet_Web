@@ -1,4 +1,7 @@
 <?php
+// Footer commun à toutes les pages, inclus via include 'footer.php'
+// J'utilise un echo pour générer le HTML entier d'un coup (peu orthodoxe mais ça fonctionne).
+// Contient les liens réseaux sociaux et les coordonnées de contact de l'EFREI.
     echo '
         <link rel="stylesheet" href="../css/footer.css">
 

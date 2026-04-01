@@ -37,10 +37,12 @@ $msgAction = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     if ($_POST['action'] === 'supprimer' && !empty($_POST['id_perm'])) {
         $idDel = (int)$_POST['id_perm'];
-        // Vérifier que c'est bien une permanence de ce prof
+        // Sécurité importante : je vérifie que cette permanence appartient BIEN à ce prof
+        // avant de supprimer → un prof ne peut pas supprimer les perms d'un collègue
         $stmtCheck = $pdo->prepare("SELECT id_perm FROM Permanence WHERE id_perm = ? AND id_ens_responsable = ?");
         $stmtCheck->execute([$idDel, $id_ens]);
         if ($stmtCheck->fetch()) {
+            // La suppression en cascade (définie en BDD) efface aussi les lignes dans Inscrit et Presenter
             $pdo->prepare("DELETE FROM Permanence WHERE id_perm = ?")->execute([$idDel]);
             $msgAction = 'Permanence supprimée.';
         }
@@ -170,6 +172,8 @@ $aujourdhuiStr = (new DateTime())->format('Y-m-d');
                         👥 <?= $nb ?> inscrit<?= $nb > 1 ? 's' : '' ?>
                     </span>
                     <div class="perm-actions">
+                        <!-- addslashes() sur la matière : si elle contient une apostrophe (ex: "Maths L'avancé")
+                             ça évite de casser le JS à l'intérieur de l'attribut onclick='...' -->
                         <button class="btn-voir"
                                 onclick="ouvrirModal(<?= $idPerm ?>, '<?= htmlspecialchars(addslashes($perm['matiere_perm'])) ?>', '<?= $heureAff ?>')">
                             Inscrits
@@ -198,14 +202,17 @@ $aujourdhuiStr = (new DateTime())->format('Y-m-d');
         </div>
     </div>
 
-    <!-- Données JSON des inscrits pour chaque permanence -->
+    <!-- Injection des données d'inscrits directement en JSON dans la page.
+         Technique : PHP génère un objet JS { idPerm: [{nom, prenom, mail}, ...], ... }
+         → la modale JS peut accéder aux étudiants sans faire de requête AJAX séparée -->
     <script>
     const inscritsData = <?php
-        // Récupérer tous les inscrits pour les permanences de la semaine
-        $idPerms = array_column($toutesLesPerms, 'id_perm');
+        $idPerms     = array_column($toutesLesPerms, 'id_perm');
         $inscritsMap = [];
 
         if (!empty($idPerms)) {
+            // array_fill(0, N, '?') + implode → génère "?,?,?" pour la clause IN
+            // Nécessaire car PDO ne supporte pas les tableaux directement dans IN (?)
             $placeholders = implode(',', array_fill(0, count($idPerms), '?'));
             $stmtIns = $pdo->prepare("
                 SELECT i.id_perm, e.nom_etu, e.prenom_etu, e.mail_etu
@@ -215,6 +222,7 @@ $aujourdhuiStr = (new DateTime())->format('Y-m-d');
                 ORDER BY e.nom_etu, e.prenom_etu
             ");
             $stmtIns->execute($idPerms);
+            // Je regroupe les résultats par id_perm : $inscritsMap[42] = [{...}, {...}]
             foreach ($stmtIns->fetchAll(PDO::FETCH_ASSOC) as $row) {
                 $inscritsMap[$row['id_perm']][] = [
                     'nom'    => $row['nom_etu'],

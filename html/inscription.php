@@ -16,7 +16,8 @@ if (!$id_perm) {
     exit();
 }
 
-// Récupérer les infos de la permanence
+// Récupérer les infos de la permanence avec le nom de l'enseignant en même temps
+// LEFT JOIN car en théorie l'enseignant pourrait ne plus exister en BDD
 $stmt = $pdo->prepare("
     SELECT p.*, e.nom_ens, e.prenom_ens
     FROM Permanence p
@@ -45,7 +46,9 @@ $complet = $nbInscrits >= 20;
 $message = '';
 $succes  = false;
 
-// Traitement de l'inscription
+// Traitement de l'inscription (seulement si POST et pas encore inscrit)
+// Je vérifie côté serveur même si le bouton est caché en HTML :
+// on ne fait jamais confiance au client (quelqu'un pourrait forger une requête POST)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$dejaInscrit) {
     if ($complet) {
         $message = 'Cette permanence est complète (20/20 élèves).';
@@ -53,6 +56,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$dejaInscrit) {
         try {
             $ins = $pdo->prepare("INSERT INTO Inscrit (id_etu, id_perm) VALUES (?, ?)");
             $ins->execute([$id_etu, $id_perm]);
+            // Le try/catch gère le cas d'un double-clic ou double-envoi :
+            // la clé primaire composite (id_etu, id_perm) empêche les doublons en BDD,
+            // ce qui lèverait une PDOException qu'on attrape ici proprement
             $succes  = true;
             $message = 'Inscription confirmée !';
             $dejaInscrit = true;
@@ -63,17 +69,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$dejaInscrit) {
     }
 }
 
-// Formatage
+// Formatage de la date et de l'heure pour l'affichage
 $moisFr = [
     1=>'janvier', 2=>'février', 3=>'mars', 4=>'avril', 5=>'mai', 6=>'juin',
     7=>'juillet', 8=>'août', 9=>'septembre', 10=>'octobre', 11=>'novembre', 12=>'décembre'
 ];
 $dateObj   = new DateTime($perm['date_perm']);
 $dateAff   = $dateObj->format('j') . ' ' . $moisFr[(int)$dateObj->format('n')] . ' ' . $dateObj->format('Y');
-$heureRaw  = substr($perm['heure_perm'], 0, 5);
+$heureRaw  = substr($perm['heure_perm'], 0, 5);   // "09:00:00" → "09:00"
 [$h, $m]   = explode(':', $heureRaw);
+// sprintf('%02dh%02d', ...) : formatage avec zéro devant si nécessaire (ex: 9 → "09h00")
+// Les permanences durent 1h, donc heure de fin = heure de début + 1
 $heureFin  = sprintf('%02dh%02d', (int)$h + 1, (int)$m);
-$heureAff  = str_replace(':', 'h', $heureRaw) . ' – ' . $heureFin;
+$heureAff  = str_replace(':', 'h', $heureRaw) . ' – ' . $heureFin;  // ex: "09h00 – 10h00"
 ?>
 <!DOCTYPE html>
 <html lang="fr">

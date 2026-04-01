@@ -31,19 +31,19 @@
             <div class="membre">
                 <h3>Margot Studer</h3>
                 <p class="formation">Bachelor Ingénierie &amp; Numérique — EFREI Paris</p>
-                <p>Margot a réalisé la page d'accueil du site.</p>
+                <p>Margot a réalisé la page d'accueil, la page des permanences, le plan, le quiz, et la gestion des sessions.</p>
             </div>
 
             <div class="membre">
                 <h3>Armence Ratsimbazafy</h3>
                 <p class="formation">Bachelor Ingénierie &amp; Numérique — EFREI Paris</p>
-                <p>Armence a réalisé la page dédiée aux enseignants.</p>
+                <p>Armence a réalisé la page dédiée aux enseignants, et les fichiers CSS de l'ensemble du site.</p>
             </div>
 
             <div class="membre">
                 <h3>Defne Siktalsi</h3>
                 <p class="formation">Bachelor Ingénierie &amp; Numérique — EFREI Paris</p>
-                <p>Defne a réalisé la page des cours et formations.</p>
+                <p>Defne a réalisé la page des cours et formations ainsi que la Base de données.</p>
             </div>
         </div>
     </section>
